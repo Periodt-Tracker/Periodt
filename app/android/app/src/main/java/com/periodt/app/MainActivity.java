@@ -1,0 +1,19 @@
+package com.periodt.app;
+
+import android.webkit.WebView;
+import android.os.Bundle;
+import com.getcapacitor.BridgeActivity;
+
+public class MainActivity extends BridgeActivity {
+   @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        WebView webview = getBridge().getWebView();
+        webview.setOverScrollMode(WebView.OVER_SCROLL_NEVER);
+    }
+}

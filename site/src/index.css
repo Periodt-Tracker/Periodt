@@ -1,0 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+
+@import "tailwindcss";
+@import "tw-animate-css";
+@plugin "@kobalte/tailwindcss";
+
+:root {
+  --period-primary: #f07d8c;
+  --period-secondary: #fad2da;
+  --period-light: #fbf5f3;
+}
+
+@theme {
+  --color-period-primary: var(--period-primary);
+  --color-period-secondary: var(--period-secondary);
+  --color-period-light: var(--period-light);
+}
+
+@layer base {
+  * {
+    font-family: "Outfit", sans-serif;
+  }
+
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+  }
+}
