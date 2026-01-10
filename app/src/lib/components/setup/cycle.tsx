@@ -11,10 +11,15 @@ import {
 	DialogTrigger,
 } from "../dialog";
 import Button from "../button";
+import { CloseButton } from "@kobalte/core/dialog";
+import { useStepper } from "../stepper/stepper-context";
+import type { SetupForm } from "@/routes/setup";
 
 const CycleLength: Component = () => {
-	const [lowerBound, __setLowerBound] = createSignal(26);
-	const [upperBound, __setUpperBound] = createSignal(28);
+	const context = useStepper<SetupForm>();
+
+	const lowerBound = () => context.form.cycle_length.lower;
+	const upperBound = () => context.form.cycle_length.upper;
 
 	const formatWheelItems = (value: number) => ({
 		label: value.toString().padStart(2, "0"),
@@ -28,27 +33,21 @@ const CycleLength: Component = () => {
 		const upper = upperBound();
 
 		if (upper <= value) {
-			__setUpperBound(value + 1);
+			context.setForm("cycle_length", "upper", value + 1);
 		}
 
-		__setLowerBound(value);
+		context.setForm("cycle_length", "lower", value);
 	};
 
 	const setUpperBound = (value: number) => {
 		const lower = lowerBound();
 
 		if (lower >= value) {
-			__setLowerBound(value - 1);
+			context.setForm("cycle_length", "lower", value - 1);
 		}
 
-		__setUpperBound(value);
+		context.setForm("cycle_length", "upper", value);
 	};
-
-	// const upperRange = () => {
-	// 	const lower = lowerBound();
-	//
-	// 	return Array.from(_.range(lower + 1, 90, formatWheelItems));
-	// };
 
 	return (
 		<section class="flex flex-col">
@@ -94,8 +93,10 @@ const CycleLength: Component = () => {
 					</DialogDescription>
 
 					<DialogFooter class="flex flex-col gap-4">
-						<Button>Skip for now</Button>
-						<Button class="bg-zinc-300">I'll pick</Button>
+						<CloseButton as={Button}>Skip for now</CloseButton>
+						<CloseButton as={Button} class="bg-zinc-500">
+							I'll pick
+						</CloseButton>
 					</DialogFooter>
 				</DialogContent>
 			</Dialog>
