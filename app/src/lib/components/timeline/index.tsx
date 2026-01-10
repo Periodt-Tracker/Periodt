@@ -11,7 +11,7 @@ const CycleTimeline: Component = () => {
 					<div
 						id={`periodt__timeline-day-${day}`}
 						class={merge(
-							"bg-period-light shrink-0 w-12 h-16 rounded-lg flex flex-col text-center text-xl p-2 shadow-lg scroll-pl-10",
+							"bg-cycle-light shrink-0 w-12 h-16 rounded-lg flex flex-col text-center text-xl p-2 shadow-lg scroll-pl-10",
 							"animate-in slide-in-from-bottom-20 duration-700 delay-100",
 						)}
 						style={{
@@ -20,7 +20,7 @@ const CycleTimeline: Component = () => {
 							"transition-delay": `${index() * 200}ms`,
 						}}
 					>
-						<span class="text-period-primary font-bold">{day}</span>
+						<span class="text-cycle-primary font-bold">{day}</span>
 					</div>
 				)}
 			</For>
