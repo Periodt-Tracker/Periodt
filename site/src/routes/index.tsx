@@ -6,7 +6,7 @@ import Title from "@/components/title";
 
 const LandingPage: Component = () => {
 	return (
-		<main class="w-svw h-svh bg-period-primary overflow-hidden">
+		<main class="w-svw h-svh bg-cycle-primary overflow-hidden">
 			<section class="relative h-full flex flex-col lg:flex-row p-8 lg:p-16 max-w-[1440px] m-auto gap-6">
 				<section class="flex flex-col grow gap-2 text-center lg:text-left">
 					<Title />
