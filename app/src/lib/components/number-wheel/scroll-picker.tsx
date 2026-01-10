@@ -5,6 +5,7 @@ import {
 	createSignal,
 	For,
 	mergeProps,
+	on,
 	type ParentComponent,
 	splitProps,
 } from "solid-js";
@@ -439,8 +440,10 @@ function WheelPicker<T extends WheelPickerValue>(__props: WheelPickerProps<T>) {
 		if (props.infinite) {
 			// Infinite mode: apply uniform deceleration to calculate scroll distance
 			duration = Math.abs(initialVelocity / deceleration);
+
 			const scrollDistance =
 				initialVelocity * duration + 0.5 * deceleration * duration * duration;
+
 			targetScroll = Math.round(currentScroll + scrollDistance);
 		} else if (currentScroll < 0 || currentScroll > options().length - 1) {
 			// Out-of-bounds: snap back to nearest valid scroll index
@@ -580,9 +583,32 @@ function WheelPicker<T extends WheelPickerValue>(__props: WheelPickerProps<T>) {
 		};
 	});
 
-	createEffect(() => {
-		selectByValue(value());
-	});
+	createEffect(
+		on(
+			() => props.value,
+			(newValue, prevValue) => {
+				if (newValue == null || newValue === prevValue) return;
+
+				const index = options().findIndex((opt) => opt.value === newValue);
+
+				if (index === -1) {
+					return;
+				}
+
+				cancelAnimation();
+
+				const startScroll = scrollId;
+				const endScroll = index;
+
+				const distance = Math.abs(endScroll - startScroll);
+				const duration = Math.sqrt(distance / props.scrollSensitivity);
+
+				animateScroll(startScroll, endScroll, duration, () => {
+					selectByScroll(scrollId);
+				});
+			},
+		),
+	);
 
 	return (
 		<div
@@ -654,4 +680,4 @@ export {
 	WheelPickerWrapper,
 };
 
-export { type WheelPickerClassNames } from "./types";
+export type { WheelPickerClassNames } from "./types";
