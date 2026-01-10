@@ -1,77 +1,142 @@
 import { Repeat } from "@solid-primitives/range";
-import { createSignal, For, Match, mergeProps, Switch, type Component, type JSX } from "solid-js";
-import { StepperContext } from "./stepper-context";
+import { FaSolidArrowRight, FaSolidChevronLeft } from "solid-icons/fa";
+import {
+	type Component,
+	createSignal,
+	For,
+	Match,
+	mergeProps,
+	onCleanup,
+	onMount,
+	Show,
+	Switch,
+} from "solid-js";
+import { createStore } from "solid-js/store";
 import Button from "../button";
-import { FaSolidArrowRight } from "solid-icons/fa";
+import { StepperContext } from "./stepper-context";
+import { App } from "@capacitor/app";
 
-export interface StepperProps {
-  pages: JSX.Element[];
-
-  initialPage?: number;
+export interface StepperPage<T extends object> {
+	component: Component;
+	valid: ((form: T) => boolean) | T;
 }
 
-const Stepper: Component<StepperProps> = (__props) => {
-  const props = mergeProps({ initialPage: 0 }, __props);
+export interface StepperProps<T extends object> {
+	initialValue: T;
+	initialPage?: number | undefined;
+	pages: StepperPage<T>[];
+	onComplete?: (form: T) => void;
+}
 
-  const [page, setPage] = createSignal(props.initialPage);
+function Stepper<T extends object>(__props: StepperProps<T>) {
+	const props = mergeProps({ initialPage: 0 }, __props);
 
-  const pageCount = () => props.pages.length;
+	const [form, setForm] = createStore(props.initialValue);
+	const [page, setPage] = createSignal(props.initialPage);
 
-  const nextPage = () => {
-    const currentPage = page();
-    const maxPage = pageCount() - 1;
+	const pageCount = () => props.pages.length;
 
-    if (currentPage === maxPage) {
-      return;
-    }
+	const nextPage = () => {
+		if (!canContinue()) {
+			return;
+		}
 
-    setPage(currentPage + 1);
-  };
+		const currentPage = page();
+		const maxPage = pageCount() - 1;
 
-  const previousPage = () => {
-    const currentPage = page();
+		if (currentPage >= maxPage) {
+			props.onComplete?.(form);
+			return;
+		}
 
-    if (currentPage === 0) {
-      return;
-    }
+		setPage(currentPage + 1);
+	};
 
-    setPage(currentPage - 1);
-  };
+	const previousPage = () => {
+		const currentPage = page();
 
-  return (
-    <StepperContext.Provider value={{ nextPage, previousPage, page, pageCount }}>
-      <div class="flex flex-col h-full">
-        <div class="grow">
-          <Switch>
-            <For each={props.pages}>
-              {(component, index) => (
-                <Match when={page() === index()}>{component}</Match>
-              )}
-            </For>
-          </Switch>
+		if (currentPage === 0) {
+			return;
+		}
 
-          <Button
-            class="mt-6 w-full flex place-items-center gap-2 justify-center"
-            onClick={nextPage}
-          >
-            Continue
-            <FaSolidArrowRight />
-          </Button>
-        </div>
+		setPage(currentPage - 1);
+	};
 
-        <div class="flex flex-row gap-2 m-auto place-items-center">
-          <Repeat times={props.pages.length}>
-            {(index) => (
-              <div
-                data-active={index === page()}
-                class="w-3 h-3 rounded-full bg-gray-400 data-[active=true]:bg-period-primary data-[active=true]:w-4 data-[active=true]:h-4"
-              />
-            )}
-          </Repeat>
-        </div>
-      </div>
-    </StepperContext.Provider>
-  );
-};
+	const currentPage = () => {
+		const index = page();
+
+		return props.pages[index];
+	};
+
+	const canContinue = () => {
+		const page = currentPage();
+
+		if (!page) {
+			return false;
+		}
+
+		if (typeof page.valid === "function") {
+			return page.valid(form);
+		}
+
+		return page.valid;
+	};
+
+	onMount(() => {
+		App.addListener("backButton", previousPage);
+	});
+
+	onCleanup(() => {
+		App.removeAllListeners();
+	});
+
+	return (
+		<StepperContext.Provider
+			value={{ nextPage, previousPage, page, pageCount, form, setForm }}
+		>
+			<div class="relative flex flex-col h-full">
+				<div class="grow">
+					<Switch>
+						<For each={props.pages}>
+							{(item, index) => (
+								<Match when={page() === index()}>{item.component}</Match>
+							)}
+						</For>
+					</Switch>
+				</div>
+
+				<Button
+					class="mt-6 mb-6 w-full flex place-items-center gap-2 justify-center"
+					disabled={!canContinue()}
+					onClick={nextPage}
+				>
+					Continue
+					<FaSolidArrowRight />
+				</Button>
+
+				<div class="flex flex-row gap-2 m-auto place-items-center">
+					<Repeat times={props.pages.length}>
+						{(index) => (
+							<div
+								data-active={index === page()}
+								class="w-3 h-3 rounded-full bg-gray-400 data-[active=true]:bg-cycle-primary data-[active=true]:w-4 data-[active=true]:h-4"
+							/>
+						)}
+					</Repeat>
+				</div>
+
+				<Show when={page() > 0}>
+					<button
+						type="button"
+						class="absolute bottom-0 left-2 flex flex-row gap-2 place-items-center text-sm text-muted-foreground"
+						onClick={previousPage}
+					>
+						<FaSolidChevronLeft class="size-2" /> Back
+					</button>
+				</Show>
+			</div>
+		</StepperContext.Provider>
+	);
+}
 
 export default Stepper;
