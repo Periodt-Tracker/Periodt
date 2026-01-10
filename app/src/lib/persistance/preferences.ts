@@ -2,7 +2,7 @@ import { Preferences } from "@capacitor/preferences";
 import type z from "zod";
 import type { PersistanceBackend } from "./types";
 
-export const preferencesPersistance: PersistanceBackend = {
+export const preferences: PersistanceBackend = {
 	async set(key: string, value: unknown): Promise<void> {
 		const serialized = JSON.stringify(value);
 		await Preferences.set({ key, value: serialized });
