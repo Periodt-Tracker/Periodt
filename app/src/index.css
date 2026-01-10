@@ -23,6 +23,10 @@
   --luteal-secondary: #ecf8e4;
   --luteal-light: #f4f8ec;
 
+  --cycle-primary: var(--period-primary);
+  --cycle-secondary: var(--period-secondary);
+  --cycle-light: var(--period-light);
+
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
@@ -121,6 +125,10 @@
   --color-luteal-primary: var(--luteal-primary);
   --color-luteal-secondary: var(--luteal-secondary);
   --color-luteal-light: var(--luteal-light);
+
+  --color-cycle-primary: var(--cycle-primary);
+  --color-cycle-secondary: var(--cycle-secondary);
+  --color-cycle-light: var(--cycle-light);
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
