@@ -1,7 +1,8 @@
 import type { Component } from "solid-js";
-import SocialMedia from "@/components/social-media";
-import Phone from "@/components/phone";
+
 import ComingSoon from "@/components/coming-soon";
+import Phone from "@/components/phone";
+import SocialMedia from "@/components/social-media";
 import Title from "@/components/title";
 
 const LandingPage: Component = () => {

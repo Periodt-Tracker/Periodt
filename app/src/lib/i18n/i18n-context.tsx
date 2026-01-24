@@ -8,7 +8,7 @@ export function useLocale() {
 
 	if (context === undefined) {
 		throw new Error(
-			"[audora]: `useLocale` must be used within a `I18nContextProivder`",
+			"[perdiot.]: `useLocale` must be used within a `I18nContextProivder`",
 		);
 	}
 

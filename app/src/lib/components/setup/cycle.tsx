@@ -2,14 +2,7 @@ import * as _ from "radash";
 
 import { type Component, createSignal } from "solid-js";
 import { WheelPicker, WheelPickerWrapper } from "../number-wheel/scroll-picker";
-import {
-	Dialog,
-	DialogContent,
-	DialogDescription,
-	DialogFooter,
-	DialogTitle,
-	DialogTrigger,
-} from "../dialog";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogTitle, DialogTrigger } from "../dialog";
 import Button from "../button";
 import { CloseButton } from "@kobalte/core/dialog";
 import { useStepper } from "../stepper/stepper-context";
@@ -88,8 +81,8 @@ const CycleLength: Component = () => {
 					<DialogTitle>Not sure how long your cycle is?</DialogTitle>
 
 					<DialogDescription>
-						It's completely okay, we're here to help you find out what's normal
-						for you,
+						It's completely okay, we're here to help you find out what's normal for
+						you,
 					</DialogDescription>
 
 					<DialogFooter class="flex flex-col gap-4">

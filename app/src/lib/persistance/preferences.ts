@@ -28,7 +28,8 @@ export const preferences: PersistanceBackend = {
 			return null;
 		}
 
-		return schema.safeParse(result.value);
+		const json = JSON.parse(result.value);
+		return schema.safeParse(json);
 	},
 
 	async delete(key: string): Promise<void> {

@@ -11,17 +11,17 @@
   --period-secondary: #fad2da;
   --period-light: #fbf5f3;
 
-  --follicular-primary: #fbf9a6;
-  --follicular-secondary: #fff8bf;
+  --follicular-primary: #fff57c;
+  --follicular-secondary: #faf5b9;
   --follicular-light: #fff7e8;
 
-  --ovulation-primary: #c3e9ef;
-  --ovulation-secondary: #e4f6fb;
-  --ovulation-light: #f3f5f5;
+  --ovulation-primary: #b7e28e;
+  --ovulation-secondary: #d8eec4;
+  --ovulation-light: #f4f8ec;
 
-  --luteal-primary: #dcefcd;
-  --luteal-secondary: #ecf8e4;
-  --luteal-light: #f4f8ec;
+  --luteal-primary: #92dce9;
+  --luteal-secondary: #c5ebf0;
+  --luteal-light: #f3f5f5;
 
   --cycle-primary: var(--period-primary);
   --cycle-secondary: var(--period-secondary);

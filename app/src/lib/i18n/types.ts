@@ -1,10 +1,22 @@
 import type * as i18n from "@solid-primitives/i18n";
 
 import type { Accessor, Setter } from "solid-js";
-import type en_dict from "./locales/en";
+import type { dict } from "./locales/en";
+
+export interface LocaleDetails {
+	key: Locale;
+
+	flag: string;
+}
 
 export interface I18nContextType {
 	locale: Accessor<Locale>;
+
+	locale_details: Record<Locale, { flag: string }>;
+
+	// this doesn't need to be reactive because
+	// it won't change
+	available_locales: LocaleDetails[];
 
 	setLocale: Setter<Locale>;
 
@@ -13,10 +25,10 @@ export interface I18nContextType {
 
 export type DeepPartial<T> =
 	T extends Record<string, unknown>
-		? { [K in keyof T]?: DeepPartial<T[K]> }
-		: T;
+	? { [K in keyof T]?: DeepPartial<T[K]> }
+	: T;
 
-export type RawDictionary = typeof en_dict;
+export type RawDictionary = typeof dict;
 export type Dictionary = i18n.Flatten<RawDictionary>;
 
-export type Locale = "en";
+export type Locale = "en" | "pl";

@@ -29,7 +29,7 @@ const DropdownMenuContent = <T extends ValidComponent = "div">(
 		<DropdownMenuPrimitive.Portal>
 			<DropdownMenuPrimitive.Content
 				class={merge(
-					"z-50 min-w-32 origin-[var(--kb-menu-content-transform-origin)] animate-content-hide overflow-hidden rounded-md bg-popover p-1 text-popover-foreground shadow-md data-[expanded]:animate-content-show",
+					"z-50 min-w-48 origin-[var(--kb-menu-content-transform-origin)] animate-content-hide overflow-hidden rounded-2xl bg-popover p-1 text-popover-foreground shadow-md data-[expanded]:animate-content-show",
 					"animate-in zoom-in-45",
 					props.class,
 				)}
@@ -51,7 +51,7 @@ const DropdownMenuItem = <T extends ValidComponent = "div">(
 	return (
 		<DropdownMenuPrimitive.Item
 			class={merge(
-				"relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+				"relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-md outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
 				props.class,
 			)}
 			{...rest}
@@ -76,7 +76,7 @@ const DropdownMenuLabel: Component<
 	return (
 		<div
 			class={merge(
-				"px-2 py-1.5 text-sm font-semibold",
+				"px-2 py-1.5 text-lg font-semibold",
 				props.inset && "pl-8",
 				props.class,
 			)}
@@ -118,7 +118,7 @@ const DropdownMenuSubTrigger = <T extends ValidComponent = "div">(
 	return (
 		<DropdownMenuPrimitive.SubTrigger
 			class={merge(
-				"flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent data-[state=open]:bg-accent",
+				"flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-lg outline-none focus:bg-accent data-[state=open]:bg-accent",
 				props.class,
 			)}
 			{...rest}
@@ -152,7 +152,7 @@ const DropdownMenuSubContent = <T extends ValidComponent = "div">(
 	return (
 		<DropdownMenuPrimitive.SubContent
 			class={merge(
-				"z-50 min-w-32 origin-[var(--kb-menu-content-transform-origin)] overflow-hidden rounded-md bg-popover p-1 text-popover-foreground shadow-md animate-in",
+				"z-50 min-w-32 origin-[var(--kb-menu-content-transform-origin)] overflow-hidden rounded-md bg-popover p-2 text-popover-foreground shadow-md animate-in",
 				props.class,
 			)}
 			{...rest}
@@ -176,7 +176,7 @@ const DropdownMenuCheckboxItem = <T extends ValidComponent = "div">(
 	return (
 		<DropdownMenuPrimitive.CheckboxItem
 			class={merge(
-				"relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+				"relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-lg outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
 				props.class,
 			)}
 			{...rest}
@@ -213,7 +213,7 @@ const DropdownMenuGroupLabel = <T extends ValidComponent = "span">(
 	const [, rest] = splitProps(props as DropdownMenuGroupLabelProps, ["class"]);
 	return (
 		<DropdownMenuPrimitive.GroupLabel
-			class={merge("px-2 py-1.5 text-sm font-semibold", props.class)}
+			class={merge("px-2 py-1.5 text-lg font-semibold", props.class)}
 			{...rest}
 		/>
 	);
@@ -235,7 +235,7 @@ const DropdownMenuRadioItem = <T extends ValidComponent = "div">(
 	return (
 		<DropdownMenuPrimitive.RadioItem
 			class={merge(
-				"relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+				"relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-lg outline-none transition-colors focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
 				props.class,
 			)}
 			{...rest}

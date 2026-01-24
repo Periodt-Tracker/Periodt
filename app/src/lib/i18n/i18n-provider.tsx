@@ -1,5 +1,8 @@
 import * as i18n from "@solid-primitives/i18n";
 import * as storage from "@solid-primitives/storage";
+
+import * as _ from "radash";
+
 import {
 	createEffect,
 	createResource,
@@ -7,8 +10,11 @@ import {
 	type ParentComponent,
 	Suspense,
 } from "solid-js";
+
+import en_flag from "@/assets/flags/GB-UKM.svg";
+import pl_flag from "@/assets/flags/PL.svg";
 import { I18nContext } from "./i18n-context";
-import en_dict from "./locales/en";
+import { dict as en_dict } from "./locales/en.ts";
 import type {
 	DeepPartial,
 	Dictionary,
@@ -17,11 +23,22 @@ import type {
 	RawDictionary,
 } from "./types";
 
+const locale_details: Record<Locale, { flag: string }> = {
+	en: { flag: en_flag },
+	pl: { flag: pl_flag },
+} as const;
+
+const available_locales = _.listify(locale_details, (key, value) => ({
+	key,
+	...value,
+}));
+
 const dictionaries: Record<
 	Locale,
 	() => Promise<{ dict: DeepPartial<RawDictionary> }> | null
 > = {
 	en: () => null, // loaded by default
+	pl: () => import("./locales/pl"),
 };
 
 const aliases: Record<string, Locale> = {};
@@ -33,8 +50,13 @@ async function fetchDictionary(locale: Locale): Promise<Dictionary> {
 		return english;
 	}
 
-	const { dict } = dictionaries[locale];
-	const flattened = i18n.flatten(dict) as RawDictionary;
+	const result = await dictionaries[locale]();
+
+	if (!result) {
+		return english;
+	}
+
+	const flattened = i18n.flatten(result.dict as RawDictionary);
 
 	return { ...english, ...flattened };
 }
@@ -113,7 +135,14 @@ const I18nProvider: ParentComponent = (props) => {
 	});
 
 	const t = i18n.translator(dictionary, i18n.resolveTemplate);
-	const context: I18nContextType = { locale, setLocale, t };
+
+	const context: I18nContextType = {
+		locale_details,
+		available_locales,
+		t,
+		locale,
+		setLocale,
+	};
 
 	return (
 		<Suspense>

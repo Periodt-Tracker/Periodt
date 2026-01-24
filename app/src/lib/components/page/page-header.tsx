@@ -9,7 +9,7 @@ const PageHeader: ParentComponent<ComponentProps<"div">> = (props) => {
 	return (
 		<div
 			class={merge(
-				"fixed top-0 left-0 p-4 w-full bg-cycle-secondary text-cycle-primary flex flex-row place-items-center",
+				"fixed top-0 left-0 p-4 pt-12 w-full bg-cycle-secondary text-cycle-primary flex flex-row place-items-center",
 				props.class,
 			)}
 			{...rest}

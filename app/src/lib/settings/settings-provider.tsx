@@ -9,22 +9,28 @@ import { createStore } from "solid-js/store";
 import SetupPage from "@/routes/setup";
 import { preferences } from "../persistance/preferences";
 import { SettingsContext } from "./settings-context";
-import type { PeriodtSettings, SettingsContextType } from "./types";
+import type { SettingsContextType } from "./types";
+import {
+	default_settings,
+	PeriodtSettingsSchema,
+	type PeriodtSettings,
+} from "./constants";
 
 const SettingsProvider: ParentComponent = (props) => {
 	const [loaded, setLoaded] = createSignal(false);
-	const [settings, setSettings] = createStore<PeriodtSettings>({
-		setup_complete: false,
-		name: "",
-		period_length: { lower: 4, upper: 6 },
-		cycle_length: { lower: 26, upper: 28 },
-	});
+	const [settings, setSettings] =
+		createStore<PeriodtSettings>(default_settings);
 
 	onMount(async () => {
-		const stored = await preferences.get<PeriodtSettings>("settings");
+		const stored = await preferences.getValidated(
+			"settings",
+			PeriodtSettingsSchema,
+		);
 
-		if (stored) {
-			setSettings(stored);
+		if (stored?.success) {
+			setSettings(stored.data);
+		} else if (stored?.error) {
+			console.log(stored.error);
 		}
 
 		setLoaded(true);

@@ -18,7 +18,7 @@ import { PrivacyScreen } from "@capacitor/privacy-screen";
 const SecurityGuard: ParentComponent = (props) => {
 	const context = useSettings();
 
-	const securityMethod = () => context.settings.securtiy;
+	const securityMethod = () => context.settings.securtiy ?? "none";
 
 	const isNone = () => securityMethod() === security_type.none;
 

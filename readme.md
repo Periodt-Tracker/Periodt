@@ -4,6 +4,8 @@
   <h6 align="center">Your private period(t) tracker.</h6>
 </p>
 
+[![Crowdin](https://badges.crowdin.net/periodt/localized.svg)](https://crowdin.com/project/periodt)
+
 ## What and Why?
 
 ### Privacy First

@@ -1,4 +1,4 @@
-const en_dict = {
+export const dict = {
 	title: "Periodt.",
 	setup: {
 		welcome: "Welcome to periodt!",
@@ -6,12 +6,30 @@ const en_dict = {
 	},
 	home: {
 		welcome: (name: string) => `Hi ${name}`,
+		phase: {
+			period: "Period",
+			follicular: "Follicular",
+			ovulation: "Ovulation",
+			luteal: "Luteal",
+		},
+		period_day: (day: number) => `Period Day ${day}`,
+		period_in: (day: number) => `Period in ${day} days`,
 	},
 	settings: {
+		locale: {
+			select: "Select your language",
+			confirm: "Select",
+			en: "English",
+			pl: "Polish",
+		},
 		title: "Settings",
 		profile: {
 			title: "My Profile",
 			description: "Name, Language",
+		},
+		accessibility: {
+			title: "Accessibility",
+			description: "Haptics, Screen Reader",
 		},
 		security: {
 			title: "Security & Privacy",
@@ -46,6 +64,4 @@ const en_dict = {
 			"You found a missing page, please send us a message explaining how you got here",
 		return: "Back",
 	},
-} as const;
-
-export default en_dict;
+};

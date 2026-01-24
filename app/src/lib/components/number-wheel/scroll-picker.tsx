@@ -1,3 +1,4 @@
+import { Haptics, ImpactStyle } from "@capacitor/haptics";
 import {
 	type ComponentProps,
 	createEffect,
@@ -10,11 +11,7 @@ import {
 	splitProps,
 } from "solid-js";
 import { clamp } from "@/lib/utilities/number";
-import type {
-	WheelPickerOption,
-	WheelPickerProps,
-	WheelPickerValue,
-} from "./types";
+import type { WheelPickerOption, WheelPickerProps, WheelPickerValue } from "./types";
 
 const RESISTANCE = 0.3; // Resistance when scrolling above the top or below the bottom
 const MAX_VELOCITY = 30; // Maximum velocity for the scroll animation
@@ -44,9 +41,7 @@ function WheelPicker<T extends WheelPickerValue>(__props: WheelPickerProps<T>) {
 		__props,
 	);
 
-	const [value, setValue] = createSignal<T>(
-		props.defaultValue ?? props.options[0]?.value,
-	);
+	const [value, setValue] = createSignal<T>(props.defaultValue ?? props.options[0]?.value);
 
 	const options = createMemo<WheelPickerOption<T>[]>(() => {
 		if (!props.infinite) {
@@ -78,8 +73,7 @@ function WheelPicker<T extends WheelPickerValue>(__props: WheelPickerProps<T>) {
 		return props.optionItemHeight / base;
 	};
 
-	const containerHeight = () =>
-		Math.round(radius() * 2 + props.optionItemHeight * 0.25);
+	const containerHeight = () => Math.round(radius() * 2 + props.optionItemHeight * 0.25);
 
 	const quarterCount = () => props.visibleCount >> 2;
 
@@ -87,8 +81,7 @@ function WheelPicker<T extends WheelPickerValue>(__props: WheelPickerProps<T>) {
 
 	const [containerRef, setContainerRef] = createSignal<HTMLDivElement>();
 	const [wheelItemsRef, setWheelItemsRef] = createSignal<HTMLUListElement>();
-	const [highlightListRef, setHighlightListRef] =
-		createSignal<HTMLUListElement>();
+	const [highlightListRef, setHighlightListRef] = createSignal<HTMLUListElement>();
 
 	let scrollId = 0;
 	let moveId = 0;
@@ -207,12 +200,7 @@ function WheelPicker<T extends WheelPickerValue>(__props: WheelPickerProps<T>) {
 		cancelAnimationFrame(moveId);
 	};
 
-	const animateScroll = (
-		startScroll: number,
-		endScroll: number,
-		duration: number,
-		onComplete?: () => void,
-	) => {
+	const animateScroll = (startScroll: number, endScroll: number, duration: number, onComplete?: () => void) => {
 		if (startScroll === endScroll || duration === 0) {
 			scrollTo(startScroll);
 			return;
@@ -226,6 +214,7 @@ function WheelPicker<T extends WheelPickerValue>(__props: WheelPickerProps<T>) {
 
 			if (elapsed < duration) {
 				const progress = easeOutCubic(elapsed / duration);
+
 				scrollId = scrollTo(startScroll + progress * totalDistance);
 				moveId = requestAnimationFrame(tick);
 			} else {
@@ -320,8 +309,7 @@ function WheelPicker<T extends WheelPickerValue>(__props: WheelPickerProps<T>) {
 
 	const updateScrollDuringDrag = (e: MouseEvent | TouchEvent) => {
 		try {
-			const currentY =
-				(e instanceof MouseEvent ? e.clientY : e.touches?.[0]?.clientY) || 0;
+			const currentY = (e instanceof MouseEvent ? e.clientY : e.touches?.[0]?.clientY) || 0;
 
 			// If this is the first move after mousedown, check if it's a drag
 			if (touchData.isClick) {
@@ -365,11 +353,7 @@ function WheelPicker<T extends WheelPickerValue>(__props: WheelPickerProps<T>) {
 	const handleDragMoveEvent = (event: MouseEvent | TouchEvent) => {
 		const container = containerRef();
 
-		if (
-			!dragging &&
-			!container?.contains(event.target as Node) &&
-			event.target !== container
-		) {
+		if (!dragging && !container?.contains(event.target as Node) && event.target !== container) {
 			return;
 		}
 
@@ -393,17 +377,10 @@ function WheelPicker<T extends WheelPickerValue>(__props: WheelPickerProps<T>) {
 
 			// Listen to movement events
 			const passiveOpts = { signal, passive: false };
-			containerRef()?.addEventListener(
-				"touchmove",
-				handleDragMoveEvent,
-				passiveOpts,
-			);
+			containerRef()?.addEventListener("touchmove", handleDragMoveEvent, passiveOpts);
 			document.addEventListener("mousemove", handleDragMoveEvent, passiveOpts);
 
-			const startY =
-				(event instanceof MouseEvent
-					? event.clientY
-					: event.touches?.[0]?.clientY) || 0;
+			const startY = (event instanceof MouseEvent ? event.clientY : event.touches?.[0]?.clientY) || 0;
 
 			touchData.startY = startY;
 			touchData.yList = [[startY, Date.now()]];
@@ -418,9 +395,7 @@ function WheelPicker<T extends WheelPickerValue>(__props: WheelPickerProps<T>) {
 	};
 
 	const handleDragStartEvent = (e: MouseEvent | TouchEvent) => {
-		const isTargetValid =
-			!!containerRef()?.contains(e.target as Node) ||
-			e.target === containerRef();
+		const isTargetValid = !!containerRef()?.contains(e.target as Node) || e.target === containerRef();
 
 		if ((dragging || isTargetValid) && e.cancelable) {
 			e.preventDefault();
@@ -433,16 +408,14 @@ function WheelPicker<T extends WheelPickerValue>(__props: WheelPickerProps<T>) {
 	const decelerateAndAnimateScroll = (initialVelocity: number) => {
 		const currentScroll = scrollId;
 		let targetScroll = currentScroll;
-		let deceleration =
-			initialVelocity > 0 ? -baseDeceleration() : baseDeceleration();
+		let deceleration = initialVelocity > 0 ? -baseDeceleration() : baseDeceleration();
 		let duration = 0;
 
 		if (props.infinite) {
 			// Infinite mode: apply uniform deceleration to calculate scroll distance
 			duration = Math.abs(initialVelocity / deceleration);
 
-			const scrollDistance =
-				initialVelocity * duration + 0.5 * deceleration * duration * duration;
+			const scrollDistance = initialVelocity * duration + 0.5 * deceleration * duration * duration;
 
 			targetScroll = Math.round(currentScroll + scrollDistance);
 		} else if (currentScroll < 0 || currentScroll > options().length - 1) {
@@ -457,8 +430,7 @@ function WheelPicker<T extends WheelPickerValue>(__props: WheelPickerProps<T>) {
 		} else {
 			// Normal decelerated scroll within bounds
 			duration = Math.abs(initialVelocity / deceleration);
-			const scrollDistance =
-				initialVelocity * duration + 0.5 * deceleration * duration * duration;
+			const scrollDistance = initialVelocity * duration + 0.5 * deceleration * duration * duration;
 			targetScroll = Math.round(currentScroll + scrollDistance);
 			targetScroll = clamp(targetScroll, 0, options().length - 1);
 
@@ -503,10 +475,7 @@ function WheelPicker<T extends WheelPickerValue>(__props: WheelPickerProps<T>) {
 
 					const maxVelocity = MAX_VELOCITY;
 					const direction = velocityPerSecond > 0 ? 1 : -1;
-					const absVelocity = Math.min(
-						Math.abs(velocityPerSecond),
-						maxVelocity,
-					);
+					const absVelocity = Math.min(Math.abs(velocityPerSecond), maxVelocity);
 					velocity = absVelocity * direction;
 				}
 			}
@@ -527,8 +496,7 @@ function WheelPicker<T extends WheelPickerValue>(__props: WheelPickerProps<T>) {
 		if (!options().length) return;
 
 		const isTargetValid =
-			!!containerRef()?.contains(event.target as Node) ||
-			event.target === containerRef();
+			!!containerRef()?.contains(event.target as Node) || event.target === containerRef();
 
 		if ((dragging || isTargetValid) && event.cancelable) {
 			event.preventDefault();
@@ -552,9 +520,7 @@ function WheelPicker<T extends WheelPickerValue>(__props: WheelPickerProps<T>) {
 	const handleWheelEvent = (event: WheelEvent) => {
 		if (!options().length || !containerRef()) return;
 
-		const isTargetValid =
-			containerRef()?.contains(event.target as Node) ||
-			event.target === containerRef();
+		const isTargetValid = containerRef()?.contains(event.target as Node) || event.target === containerRef();
 
 		if ((dragging || isTargetValid) && event.cancelable) {
 			event.preventDefault();
@@ -611,11 +577,7 @@ function WheelPicker<T extends WheelPickerValue>(__props: WheelPickerProps<T>) {
 	);
 
 	return (
-		<div
-			ref={setContainerRef}
-			data-rwp
-			style={{ height: `${containerHeight()}px` }}
-		>
+		<div ref={setContainerRef} data-rwp style={{ height: `${containerHeight()}px` }}>
 			<ul ref={setWheelItemsRef} data-rwp-options>
 				<For each={wheelItems()}>
 					{(entry) => (
@@ -672,12 +634,6 @@ function WheelPicker<T extends WheelPickerValue>(__props: WheelPickerProps<T>) {
 	);
 }
 
-export {
-	WheelPicker,
-	type WheelPickerOption,
-	type WheelPickerProps,
-	type WheelPickerValue,
-	WheelPickerWrapper,
-};
+export { WheelPicker, type WheelPickerOption, type WheelPickerProps, type WheelPickerValue, WheelPickerWrapper };
 
 export type { WheelPickerClassNames } from "./types";

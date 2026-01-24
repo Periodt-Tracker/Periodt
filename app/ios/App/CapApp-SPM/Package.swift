@@ -21,7 +21,9 @@ let package = Package(
         .package(name: "CapacitorPrivacyScreen", path: "../../../../node_modules/.pnpm/@capacitor+privacy-screen@2.0.0_@capacitor+core@8.0.0/node_modules/@capacitor/privacy-screen"),
         .package(name: "CapacitorScreenOrientation", path: "../../../../node_modules/.pnpm/@capacitor+screen-orientation@8.0.0_@capacitor+core@8.0.0/node_modules/@capacitor/screen-orientation"),
         .package(name: "CapacitorStatusBar", path: "../../../../node_modules/.pnpm/@capacitor+status-bar@8.0.0_@capacitor+core@8.0.0/node_modules/@capacitor/status-bar"),
+        .package(name: "CapgoCapacitorHealth", path: "../../../../node_modules/.pnpm/@capgo+capacitor-health@8.2.5_@capacitor+core@8.0.0/node_modules/@capgo/capacitor-health"),
         .package(name: "CapgoCapacitorNativeBiometric", path: "../../../../node_modules/.pnpm/@capgo+capacitor-native-biometric@8.0.3_@capacitor+core@8.0.0/node_modules/@capgo/capacitor-native-biometric"),
+        .package(name: "CapgoCapacitorShake", path: "../../../../node_modules/.pnpm/@capgo+capacitor-shake@8.0.11_@capacitor+core@8.0.0/node_modules/@capgo/capacitor-shake"),
         .package(name: "CapacitorSecureStoragePlugin", path: "../../../../node_modules/.pnpm/capacitor-secure-storage-plugin@0.12.0_@capacitor+core@8.0.0/node_modules/capacitor-secure-storage-plugin")
     ],
     targets: [
@@ -39,7 +41,9 @@ let package = Package(
                 .product(name: "CapacitorPrivacyScreen", package: "CapacitorPrivacyScreen"),
                 .product(name: "CapacitorScreenOrientation", package: "CapacitorScreenOrientation"),
                 .product(name: "CapacitorStatusBar", package: "CapacitorStatusBar"),
+                .product(name: "CapgoCapacitorHealth", package: "CapgoCapacitorHealth"),
                 .product(name: "CapgoCapacitorNativeBiometric", package: "CapgoCapacitorNativeBiometric"),
+                .product(name: "CapgoCapacitorShake", package: "CapgoCapacitorShake"),
                 .product(name: "CapacitorSecureStoragePlugin", package: "CapacitorSecureStoragePlugin")
             ]
         )
