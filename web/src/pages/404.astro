@@ -1,0 +1,45 @@
+---
+import { SITE_DESCRIPTION, SITE_TITLE } from "../constants";
+import BaseHead from "../components/head.astro";
+import Footer from "../components/footer.astro";
+import Navbar from "@/components/navbar/navbar.astro";
+import Container from "@/components/container/container.astro";
+import { Image } from "astro:assets";
+import blob from "@/assets/question_512.png";
+---
+
+<!doctype html>
+<html lang="en">
+    <head>
+        <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+    </head>
+
+    <body>
+        <Navbar variant="light" />
+
+        <Container>
+            <div class="flex flex-col place-items-center min-h-svh gap-8">
+                <Image class="w-48 md:w-96" src={blob} alt="" />
+
+                <div class="text-center">
+                    <h1
+                        class="text-period-primary font-bold text-8xl text-centers"
+                    >
+                        404
+                    </h1>
+
+                    <span>Looks like we got a little lost</span>
+                </div>
+
+                <a
+                    class="mx-auto md:mx-0 bg-period-primary text-white py-4 md:py-8 px-12 font-bold text-lg rounded-full w-fit"
+                    href="/"
+                >
+                    Back Home?
+                </a>
+            </div>
+        </Container>
+
+        <Footer />
+    </body>
+</html>

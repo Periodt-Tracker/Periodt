@@ -1,0 +1,57 @@
+---
+import BaseHead from "../components/head.astro";
+import Footer from "../components/footer.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../constants";
+import Navbar from "@/components/navbar/navbar.astro";
+import phone from "@/assets/phone.webp";
+import highlight from "@/assets/highlight.svg";
+import { Image } from "astro:assets";
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+
+	<body class="bg-period-primary">
+		<Navbar variant="brand" />
+
+		<div
+			class="flex flex-col gap-16 md:flex-row min-h-svh max-w-[1440px] mx-auto"
+		>
+			<div class="flex flex-col gap-4 mx-8 mt-4 md:mt-32">
+				<h1
+					class="text-white font-semibold text-5xl lg:text-8xl inline-block relative"
+				>
+					Your{" "}
+					<span class="relative w-fit h-fit">
+						<Image
+							class="absolute w-full top-0 left-0"
+							src={highlight}
+							alt="highlight"
+						/>
+						<span class="relative">private</span>
+					</span>
+
+					<br /> Periodt. tracker
+				</h1>
+
+				<span class="text-white text-2xl lg:text-4xl mb-8">
+					Your health, on your device.
+				</span>
+
+				<button
+					class="animate-in slide-in-from-bottom-30 mx-auto md:mx-0 bg-white text-period-primary py-4 md:py-8 px-12 font-bold text-lg rounded-full w-fit"
+					>Get Started</button
+				>
+			</div>
+
+			<div class="mx-auto max-w-[80%]">
+				<Image class="w-96" src={phone} alt="" />
+			</div>
+		</div>
+
+		<Footer />
+	</body>
+</html>

@@ -1,0 +1,61 @@
+---
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import BaseHead from "../../components/head.astro";
+import Footer from "../../components/footer.astro";
+import FormattedDate from "../../components/formatted-date.astro";
+import Navbar from "@/components/navbar/navbar.astro";
+import { SITE_DESCRIPTION, SITE_TITLE } from "../../constants";
+import Container from "@/components/container/container.astro";
+
+const posts = (await getCollection("blog")).sort(
+	(a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+	</head>
+
+	<body>
+		<Navbar variant="light" />
+
+		<Container>
+			<section class="mt-8">
+				<ul class="grid grid-cols-1 md:grid-cols-2 gap-8">
+					{
+						posts.map((post) => (
+							<li class="lg:first:col-span-2 lg:first:text-center">
+								<a href={`/blog/${post.id}/`}>
+									{post.data.image && (
+										<Image src={post.data.image} alt="" />
+									)}
+
+									<h4 class="title font-bold text-2xl mt-4">
+										{post.data.title}
+									</h4>
+
+									<p class="date">
+										<span class="font-semibold text-period-primary">
+											{post.data.category}
+										</span>
+										&middot
+										<span class="italic">
+											<FormattedDate
+												date={post.data.date}
+											/>
+										</span>
+									</p>
+								</a>
+							</li>
+						))
+					}
+				</ul>
+			</section>
+		</Container>
+
+		<Footer />
+	</body>
+</html>

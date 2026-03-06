@@ -1,0 +1,77 @@
+---
+import Link from "@/components/link/link.astro";
+import { Astronav, MenuItems, MenuIcon } from "astro-navbar";
+
+export type Props = { variant: "light" | "brand" };
+
+const { variant = "light" } = Astro.props;
+
+const styles = {
+    light: {
+        bg: "bg-white",
+        text: "text-black",
+        brand: "text-period-primary",
+    },
+    brand: {
+        bg: "bg-period-primary",
+        text: "text-white",
+        brand: "text-white",
+    },
+};
+
+const current = styles[variant];
+---
+
+<div class:list={["sticky top-0 py-1 px-8 z-50", current.bg]}>
+    <header class="flex flex-col lg:flex-row justify-between items-center my-5">
+        <Astronav>
+            <div class="flex w-full lg:w-auto items-center justify-between">
+                <a
+                    href="/"
+                    class:list={["text-2xl font-semibold", current.brand]}
+                    >Periodt.
+                </a>
+
+                <div class:list={["block lg:hidden", current.text]}>
+                    <MenuIcon class="w-4 h-4" />
+                </div>
+            </div>
+
+            <MenuItems
+                class:list={[
+                    "hidden w-full lg:w-auto mt-2 lg:flex lg:mt-0",
+                    current.text,
+                ]}
+            >
+                <ul class="flex flex-col lg:flex-row lg:gap-3 list-none mb-0!">
+                    <li>
+                        <a href="/about" class="flex lg:px-3 py-2 items-center">
+                            <span>About</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/blog" class="flex lg:px-3 py-2">
+                            <span>Blog</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a
+                            href="/contact"
+                            class="flex lg:px-3 py-2 items-center"
+                        >
+                            <span>Contact</span>
+                        </a>
+                    </li>
+                </ul>
+            </MenuItems>
+        </Astronav>
+
+        <div>
+            <div class="hidden lg:flex items-center gap-4">
+                <Link href="#" size="md">Download</Link>
+            </div>
+        </div>
+    </header>
+</div>
