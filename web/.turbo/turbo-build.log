@@ -1,0 +1,27 @@
+
+
+> web@0.0.1 build /home/charlie/Projects/Periodt/web
+> astro build
+
+[2m01:02:14[22m [34m[content][39m Syncing content
+[2m01:02:14[22m [34m[content][39m Synced content
+[2m01:02:14[22m [34m[types][39m Generated [2m1.20s[22m
+[2m01:02:14[22m [34m[build][39m output: [34m"static"[39m
+[2m01:02:14[22m [34m[build][39m mode: [34m"static"[39m
+[2m01:02:14[22m [34m[build][39m directory: [34m/home/charlie/Projects/Periodt/web/dist/[39m
+[2m01:02:14[22m [34m[build][39m Collecting build info...
+[2m01:02:14[22m [34m[build][39m [32m✓ Completed in 1.28s.[39m
+[2m01:02:14[22m [34m[build][39m Building static entrypoints...
+[33m`transformWithEsbuild` is deprecated and will be removed in the future. Please migrate to `transformWithOxc`.[39m
+[2m01:02:15[22m [34m[vite][39m [32m✓ built in 1.47s[39m
+[2m01:02:15[22m [34m[build][39m [32m✓ Completed in 1.51s.[39m
+Cannot set property code of #<OutputChunkImpl> which has only a getter
+  [1mLocation:[22m
+    [4m/home/charlie/Projects/Periodt/node_modules/.pnpm/astro@5.18.0_@capacitor+preferences@8.0.0_@capacitor+core@8.0.0__@types+node@24.10.4_ji_61054975c1042d8444f4583acb81a07e/node_modules/astro/dist/core/build/plugin.js:39:20[24m
+  [1mStack trace:[22m
+[2m    at mutate (file:///home/charlie/Projects/Periodt/node_modules/.pnpm/astro@5.18.0_@capacitor+preferences@8.0.0_@capacitor+core@8.0.0__@types+node@24.10.4_ji_61054975c1042d8444f4583acb81a07e/node_modules/astro/dist/core/build/plugin.js:39:20)
+    at Object.runPostHook (file:///home/charlie/Projects/Periodt/node_modules/.pnpm/astro@5.18.0_@capacitor+preferences@8.0.0_@capacitor+core@8.0.0__@types+node@24.10.4_ji_61054975c1042d8444f4583acb81a07e/node_modules/astro/dist/core/build/plugin.js:48:17)
+    at async viteBuild (file:///home/charlie/Projects/Periodt/node_modules/.pnpm/astro@5.18.0_@capacitor+preferences@8.0.0_@capacitor+core@8.0.0__@types+node@24.10.4_ji_61054975c1042d8444f4583acb81a07e/node_modules/astro/dist/core/build/static-build.js:67:3)
+    at async AstroBuilder.run (file:///home/charlie/Projects/Periodt/node_modules/.pnpm/astro@5.18.0_@capacitor+preferences@8.0.0_@capacitor+core@8.0.0__@types+node@24.10.4_ji_61054975c1042d8444f4583acb81a07e/node_modules/astro/dist/core/build/index.js:188:7)
+    at async build (file:///home/charlie/Projects/Periodt/node_modules/.pnpm/astro@5.18.0_@capacitor+preferences@8.0.0_@capacitor+core@8.0.0__@types+node@24.10.4_ji_61054975c1042d8444f4583acb81a07e/node_modules/astro/dist/cli/build/index.js:29:3)[22m
+[41m[30m ELIFECYCLE [39m[49m [31mCommand failed with exit code 1.[39m
