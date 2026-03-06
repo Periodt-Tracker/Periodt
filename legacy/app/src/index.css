@@ -1,0 +1,359 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+@import "tailwindcss";
+@import "tw-animate-css";
+@plugin "@kobalte/tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *, [data-kb-theme="dark"], [data-kb-theme="dark"] *));
+
+:root {
+  --period-primary: #f07d8c;
+  --period-secondary: #fad2da;
+  --period-light: #fbf5f3;
+
+  --follicular-primary: #fff57c;
+  --follicular-secondary: #faf5b9;
+  --follicular-light: #fff7e8;
+
+  --ovulation-primary: #b7e28e;
+  --ovulation-secondary: #d8eec4;
+  --ovulation-light: #f4f8ec;
+
+  --luteal-primary: #92dce9;
+  --luteal-secondary: #c5ebf0;
+  --luteal-light: #f3f5f5;
+
+  --cycle-primary: var(--period-primary);
+  --cycle-secondary: var(--period-secondary);
+  --cycle-light: var(--period-light);
+
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --destructive-foreground: oklch(0.577 0.245 27.325);
+
+  --info: oklch(0.95 0.024 236.81);
+  --info-foreground: oklch(0.68 0.148143 238.1044);
+  --success: oklch(0.95 0.0506 162.83);
+  --success-foreground: oklch(0.69 0.1481 162.37);
+  --warning: oklch(0.96 0.0569 95.61);
+  --warning-foreground: oklch(0.71 0.186 48.13);
+  --error: oklch(0.93 0.0314 17.73);
+  --error-foreground: oklch(0.64 0.2082 25.38);
+
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+.dark,
+[data-kb-theme="dark"] {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.145 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.145 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.985 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.396 0.141 25.723);
+  --destructive-foreground: oklch(0.637 0.237 25.331);
+
+  --info: oklch(0.28 0.0875 267.91);
+  --info-foreground: oklch(0.68 0.148143 238.1044);
+  --success: oklch(0.26 0.0487 172.54);
+  --success-foreground: oklch(0.69 0.1481 162.37);
+  --warning: oklch(0.29 0.0638 53.82);
+  --warning-foreground: oklch(0.71 0.186 48.13);
+  --error: oklch(0.26 0.0886 26.05);
+  --error-foreground: oklch(0.64 0.2082 25.38);
+
+  --border: oklch(0.269 0 0);
+  --input: oklch(0.269 0 0);
+  --ring: oklch(0.439 0 0);
+
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(0.269 0 0);
+  --sidebar-ring: oklch(0.439 0 0);
+}
+
+@theme {
+  --color-period-primary: var(--period-primary);
+  --color-period-secondary: var(--period-secondary);
+  --color-period-light: var(--period-light);
+
+  --color-follicular-primary: var(--follicular-primary);
+  --color-follicular-secondary: var(--follicular-secondary);
+  --color-follicular-light: var(--follicular-light);
+
+  --color-ovulation-primary: var(--ovulation-primary);
+  --color-ovulation-secondary: var(--ovulation-secondary);
+  --color-ovulation-light: var(--ovulation-light);
+
+  --color-luteal-primary: var(--luteal-primary);
+  --color-luteal-secondary: var(--luteal-secondary);
+  --color-luteal-light: var(--luteal-light);
+
+  --color-cycle-primary: var(--cycle-primary);
+  --color-cycle-secondary: var(--cycle-secondary);
+  --color-cycle-light: var(--cycle-light);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-error: var(--error);
+  --color-error-foreground: var(--error-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius: 0.5rem;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  @keyframes accordion-down {
+    from {
+      height: 0;
+    }
+
+    to {
+      height: var(--kb-accordion-content-height);
+    }
+  }
+
+  @keyframes accordion-up {
+    from {
+      height: var(--kb-accordion-content-height);
+    }
+
+    to {
+      height: 0;
+    }
+  }
+
+  @keyframes content-show {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes content-hide {
+    from {
+      opacity: 1;
+      transform: scale(1);
+    }
+
+    to {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+  }
+}
+
+@utility container {
+  @apply px-8;
+
+  @media (width >= --theme(--breakpoint-sm)) {
+    @apply max-w-none;
+  }
+
+  @media (max-width: 640px) {
+    @apply px-4;
+  }
+}
+
+@utility no-scrollbar {
+  @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
+}
+
+@utility step {
+  counter-increment: step;
+
+  &:before {
+    @apply absolute w-9 h-9 bg-muted rounded-full font-mono font-medium text-center text-base inline-flex items-center justify-center -indent-px border-4 border-background;
+    @apply ml-[-50px] mt-[-4px];
+    content: counter(step);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    font-family: "Outfit", sans-serif;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
+  /**
+	 * Scrollbar
+	 */
+
+  ::-webkit-scrollbar {
+    width: 16px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    border: 4px solid transparent;
+    background-clip: content-box;
+    @apply bg-accent;
+  }
+
+  ::-webkit-scrollbar-corner {
+    display: none;
+  }
+}
+
+[data-rwp-wrapper] ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+[data-rwp-wrapper] li {
+  margin: 0;
+  padding: 0;
+}
+
+[data-rwp-wrapper] {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  width: 100%;
+  align-items: stretch;
+  justify-content: space-between;
+  perspective: 2000px;
+  user-select: none;
+}
+
+[data-rwp] {
+  position: relative;
+  overflow: hidden;
+  flex: 1;
+  cursor: default;
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    black 20%,
+    black 80%,
+    transparent 100%
+  );
+}
+
+[data-rwp-highlight-wrapper] {
+  position: absolute;
+  overflow: hidden;
+  top: 50%;
+  width: 100%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+[data-rwp-highlight-list] {
+  position: absolute;
+  width: 100%;
+}
+
+[data-rwp-options] {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  display: block;
+  width: 100%;
+  height: 0;
+  margin: 0 auto;
+  -webkit-font-smoothing: subpixel-antialiased;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+[data-rwp-option] {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  -webkit-font-smoothing: subpixel-antialiased;
+  will-change: visibility;
+  font-size: 0.875rem;
+}
+
+[data-rwp-option],
+[data-rwp-highlight-item] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
