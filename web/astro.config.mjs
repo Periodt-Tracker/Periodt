@@ -5,11 +5,16 @@ import sitemap from "@astrojs/sitemap";
 import { defineConfig } from "astro/config";
 import tailwindcss from "@tailwindcss/vite";
 
+import cloudflare from "@astrojs/cloudflare";
+
 // https://astro.build/config
 export default defineConfig({
-	site: "https://periodt-tracker.com",
-	integrations: [mdx(), sitemap()],
-	vite: {
-		plugins: [tailwindcss()],
+  site: "https://periodt-tracker.com",
+  integrations: [mdx(), sitemap()],
+
+  vite: {
+      plugins: [tailwindcss()],
 	},
+
+  adapter: cloudflare(),
 });
