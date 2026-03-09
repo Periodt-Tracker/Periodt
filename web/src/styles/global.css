@@ -60,11 +60,6 @@ body {
 	line-height: 1.7;
 }
 
-
-.prose p {
-	margin-bottom: 2em;
-}
-
 textarea {
 	width: 100%;
 	font-size: 16px;
@@ -74,18 +69,8 @@ input {
 	font-size: 16px;
 }
 
-ul {
-	margin-bottom: 2em;
-}
-
 table {
 	width: 100%;
-}
-
-img {
-	max-width: 100%;
-	height: auto;
-	border-radius: 8px;
 }
 
 code {

@@ -21,7 +21,7 @@ const { title, description, date, updated_date, image } = Astro.props;
 		<Navbar variant="light" />
 
 		<Container>
-			<div class="prose md:mx-auto">
+			<div class="prose md:mx-auto prose-img:rounded-2xl">
 				<div class="mb-4 py-4 text-center">
 					<div class="date">
 						{
@@ -41,7 +41,7 @@ const { title, description, date, updated_date, image } = Astro.props;
 						{
 							image && (
 								<Image
-									class="block mx-auto rounded-xl"
+									class="block mx-auto"
 									width={1020}
 									height={510}
 									src={image}
