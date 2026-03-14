@@ -1,0 +1,7 @@
+{
+	"name": "periodt",
+	"compatibility_date": "2026-03-14", // Update to the day you deploy
+	"assets": {
+		"directory": "./dist"
+	}
+}
