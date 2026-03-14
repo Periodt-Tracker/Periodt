@@ -2,3 +2,5 @@ node_modules/
 
 *.g.dart
 *.freezed.dart
+
+.DS_Store
