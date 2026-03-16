@@ -14,7 +14,7 @@ body:
     id: description
     attributes:
       label: Bug Description
-      description: Describe the bug in detail.
+      description: Describe the bug in as much detail as you can, every little big can help us figure out what's wrong quicker.
       placeholder: A clear and concise description of what the bug is.
 
   - type: textarea
@@ -40,14 +40,14 @@ body:
     id: app_version
     attributes:
       label: App Version
-      description: What version of the app are you using?
+      description: What version of the app are you using? (You can find this at the bottom of the settings page in Periodt.)
       placeholder: e.g. 1.2.3
 
   - type: input
     id: device
     attributes:
       label: Device & OS
-      description: What device and operating system are you using?
+      description: What device and operating system are you using? (If you're not sure what this means for an iPhone try [this](https://support.apple.com/en-us/109065) and for an android try [this](https://support.google.com/android/answer/7680439?hl=en))
       placeholder: e.g. Pixel 5, Android 12
 
   - type: textarea
