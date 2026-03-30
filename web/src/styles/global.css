@@ -2,7 +2,7 @@
 
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
-@import "tw-animate-css";
+@import 'tailwind-animations';
 
 :root {
 	--accent: #2337ff;
@@ -15,12 +15,36 @@
 	--period-primary: #f07d8c;
 	--period-secondary: #fad2da;
 	--period-light: #fbf5f3;
+
+	--follicular-primary: #fff57c;
+	--follicular-secondary: #faf5b9;
+	--follicular-light: #fff7e8;
+
+	--ovulation-primary: #b7e28e;
+	--ovulation-secondary: #d8eec4;
+	--ovulation-light: #f4f8ec;
+
+	--luteal-primary: #92dce9;
+	--luteal-secondary: #c5ebf0;
+	--luteal-light: #f3f5f5;
 }
 
 @theme {
 	--color-period-primary: var(--period-primary);
 	--color-period-secondary: var(--period-secondary);
 	--color-period-light: var(--period-light);
+
+	--color-follicular-primary: var(--follicular-primary);
+	--color-follicular-secondary: var(--follicular-secondary);
+	--color-follicular-light: var(--follicular-light);
+
+	--color-ovulation-primary: var(--ovulation-primary);
+	--color-ovulation-secondary: var(--ovulation-secondary);
+	--color-ovulation-light: var(--ovulation-light);
+
+	--color-luteal-primary: var(--luteal-primary);
+	--color-luteal-secondary: var(--luteal-secondary);
+	--color-luteal-light: var(--luteal-light);
 }
 
 table {
@@ -130,4 +154,109 @@ img {
 
 math {
 	font-size: 1.25em;
+}
+
+[data-callout] {
+	& {
+		@apply my-6 space-y-2 rounded-r-2xl border-l-4 p-4 pb-5;
+	}
+
+	&>[data-callout-title] {
+		& {
+			@apply flex flex-row items-start gap-2 p-0 font-bold;
+		}
+
+		&:not:only-child {
+			@apply mb-2;
+		}
+
+		&:empty::after {
+			content: "Note";
+		}
+
+		&::before {
+			@apply mt-1 block h-5 w-5 bg-current content-[""];
+			mask-repeat: no-repeat;
+			mask-size: cover;
+
+			/* lucide-pencil */
+			mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iY3VycmVudENvbG9yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMiIgZD0iTTE3IDNhMi44NSAyLjgzIDAgMSAxIDQgNEw3LjUgMjAuNUwyIDIybDEuNS01LjVabS0yIDJsNCA0Ii8+PC9zdmc+");
+		}
+	}
+
+	&>[data-callout-body] {
+		& {
+			@apply space-y-2;
+		}
+
+		&>* {
+			@apply m-0;
+		}
+	}
+}
+
+details[data-callout]>summary[data-callout-title] {
+	& {
+		@apply cursor-pointer;
+	}
+
+	&::after {
+		@apply w-full bg-right bg-no-repeat;
+		content: "";
+
+		/* lucide:chevron-right */
+		background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzg4ODg4OCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Im05IDE4bDYtNmwtNi02Ii8+PC9zdmc+");
+		background-size: 1.5rem;
+	}
+
+	&:not(:empty)::after {
+		@apply my-auto ml-auto h-6 w-6;
+	}
+}
+
+details[data-callout][open]>summary[data-callout-title]::after {
+	/* lucide:chevron-down */
+	background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzg4ODg4OCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Im02IDlsNiA2bDYtNiIvPjwvc3ZnPg==");
+}
+
+[data-callout][data-callout-type="definition"] {
+	& {
+		@apply border-ovulation-primary/60 bg-ovulation-light/60;
+	}
+
+	&>[data-callout-title] {
+		& {
+			@apply text-ovulation-primary;
+		}
+
+		&:empty::after {
+			content: "Definition";
+		}
+
+		&::before {
+			/* lucide:info */
+			mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLWJvb2stb3Blbi1pY29uIGx1Y2lkZS1ib29rLW9wZW4iPjxwYXRoIGQ9Ik0xMiA3djE0Ii8+PHBhdGggZD0iTTMgMThhMSAxIDAgMCAxLTEtMVY0YTEgMSAwIDAgMSAxLTFoNWE0IDQgMCAwIDEgNCA0IDQgNCAwIDAgMSA0LTRoNWExIDEgMCAwIDEgMSAxdjEzYTEgMSAwIDAgMS0xIDFoLTZhMyAzIDAgMCAwLTMgMyAzIDMgMCAwIDAtMy0zeiIvPjwvc3ZnPg==");
+		}
+	}
+}
+
+[data-callout][data-callout-type="info"] {
+	& {
+		@apply border-luteal-primary/60 bg-luteal-light/60;
+	}
+
+	&>[data-callout-title] {
+		& {
+			@apply text-luteal-primary;
+		}
+
+		&:empty::after {
+			content: "Infp";
+		}
+
+		&::before {
+			/* lucide:info */
+			mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXNlYXJjaC1pY29uIGx1Y2lkZS1zZWFyY2giPjxwYXRoIGQ9Im0yMSAyMS00LjM0LTQuMzQiLz48Y2lyY2xlIGN4PSIxMSIgY3k9IjExIiByPSI4Ii8+PC9zdmc+");
+		}
+	}
 }
