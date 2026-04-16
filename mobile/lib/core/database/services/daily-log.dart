@@ -59,4 +59,70 @@ extension DailyLogService on AppDatabase {
       );
     }).get();
   }
+
+  Future createDailyLog(DailyLogBuilder builder) async {
+    return await transaction(() async {
+      final logValues = DailyLogCompanion(date: Value(builder.date));
+      final logId = await into(dailyLog).insert(logValues);
+
+      final bleeding = builder.bleeding;
+
+      if (bleeding != null) {
+        final companion = BleedingLogCompanion.insert(
+          logId: Value(logId),
+          bleedingLevel: bleeding.bleedingLevel,
+          clots: bleeding.clots,
+          spotting: bleeding.spotting,
+        );
+
+        await into(bleedingLog).insert(companion);
+      }
+
+      final sex = builder.sex;
+
+      if (sex != null) {
+        final companion = SexLogCompanion.insert(
+          logId: Value(logId),
+          sexType: sex.sexType,
+        );
+
+        await into(sexLog).insert(companion);
+      }
+
+      final discharge = builder.discharge;
+
+      if (discharge != null) {
+        final values = DischargeLogCompanion.insert(
+          logId: Value(logId),
+          colour: discharge.colour,
+          consistency: discharge.consistency,
+          odor: discharge.odor,
+        );
+
+        await into(dischargeLog).insert(values);
+      }
+
+      final mood = builder.mood;
+
+      if (mood != null) {
+        final companions = MoodLogCompanion.insert(
+          logId: Value(logId),
+          moodType: mood.moodType,
+        );
+
+        await into(moodLog).insert(companions);
+      }
+
+      return logId;
+    });
+  }
+
+  Future deleteDailyLog(String date) async {
+    return await transaction(() async {
+      final statement = delete(dailyLog)
+        ..where((table) => table.date.equals(date));
+
+      return await statement.go();
+    });
+  }
 }

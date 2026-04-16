@@ -3,13 +3,24 @@ import 'package:periodt/core/database/database.dart';
 
 typedef PeriodQuery = ({int? limit, int? offset});
 
-typedef PeriodBuilder = ({String startDate, int duration});
+typedef PeriodBuilder = ({DateTime startDate, DateTime endDate});
 
-typedef PeriodUpdater = ({String? startDate, int? duration});
+typedef PeriodUpdater = ({DateTime? startDate, DateTime? endDate});
 
 const periodQueryLimit = 100;
 
 extension PeriodService on AppDatabase {
+  Stream<List<Period>> watchPeriods({int? limit, int? offset}) {
+    final fixedLimit = limit ?? periodQueryLimit;
+    final fixedOffset = offset ?? 0;
+
+    final statement = select(periods)
+      ..limit(fixedLimit, offset: fixedOffset)
+      ..orderBy([(period) => OrderingTerm.desc(period.startDate)]);
+
+    return statement.watch();
+  }
+
   Future<List<Period>> getPeriods({int? limit, int? offset}) async {
     final fixedLimit = limit ?? periodQueryLimit;
     final fixedOffset = offset ?? 0;
@@ -25,7 +36,7 @@ extension PeriodService on AppDatabase {
     return await transaction(() async {
       final values = PeriodsCompanion(
         startDate: Value(data.startDate),
-        duration: Value(data.duration),
+        endDate: Value(data.endDate),
       );
 
       await into(periods).insert(values);
@@ -36,7 +47,7 @@ extension PeriodService on AppDatabase {
     return transaction(() async {
       final values = PeriodsCompanion(
         startDate: Value.absentIfNull(updates.startDate),
-        duration: Value.absentIfNull(updates.duration),
+        endDate: Value.absentIfNull(updates.endDate),
       );
 
       return update(periods)
@@ -47,9 +58,10 @@ extension PeriodService on AppDatabase {
 
   Future deletePeriod(int periodId) async {
     return transaction(() async {
-      return delete(periods)
-        ..where((period) => period.periodId.equals(periodId))
-        ..go();
+      final statement = delete(periods)
+        ..where((period) => period.periodId.equals(periodId));
+
+      return await statement.go();
     });
   }
 }
