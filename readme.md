@@ -1,14 +1,13 @@
 <p align="center">
-  <img style="width: 10em;" src="./app/assets/icon-full.png" alt="blob"/>
+  <img style="width: 10em;" src="./legacy/app/assets/logo.png" alt="blob"/>
   <h1 align="center"> Periodt. </h1>
   <h6 align="center">Your private period(t) tracker.</h6>
 </p>
 
 [![Crowdin](https://badges.crowdin.net/periodt/localized.svg)](https://crowdin.com/project/periodt)
+[![Linktree](https://img.shields.io/badge/linktree-1de9b6?style=flat&logo=linktree&logoColor=white)](https://linktr.ee/periodt.tracker)
 
 ## What and Why?
-
-### Privacy First
 
 This app is designed with privacy as a core principle:
 
@@ -20,7 +19,17 @@ No personal or health data is collected
 
 - You can verify this yourself by reviewing the source code.
 
-## Develop
+## Found a bug?
+
+We'd love to get it fixed for you, you can either open an issue on GitHub [here](https://github.com/Periodt-Tracker/Periodt/issues/new) or reach out to us on [social media](https://linktr.ee/periodt.tracker) or by email.
+
+If you're technical and want to help us out even more feel free to open a pull request fixing your issue.
+
+## This repository
+
+This is Periodt's mono-repo containing everything for the Periodt app and blog
+
+### Develop
 
 The Periodt. app is built with [capacitor](https://capacitorjs.com/) using [solid.js](https://docs.solidjs.com/) as a frontend and [pnpm](https://pnpm.io/) as a package manager.
 
