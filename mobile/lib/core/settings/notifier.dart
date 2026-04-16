@@ -1,34 +1,56 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/legacy.dart';
 import 'package:periodt/core/settings/models.dart';
 import 'package:periodt/core/settings/repository.dart';
 
 class SettingsNotifier extends StateNotifier<PeriodtSettings> {
-  final SettingsRepository repository = SettingsRepository();
+  final SettingsRepository _repository = SettingsRepository();
 
   SettingsNotifier() : super(PeriodtSettings()) {
     _load();
   }
 
   Future<void> _load() async {
-    state = await repository.loadSettings() ?? PeriodtSettings();
+    state = await _repository.loadSettings() ?? PeriodtSettings();
   }
 
   Future completeSetup() async {
     state = state.copyWith(setupComplete: true);
 
-    await repository.saveSettings(state);
+    await _repository.saveSettings(state);
+  }
+
+  Future resetSetup() async {
+    state = state.copyWith(setupComplete: false);
+
+    await _repository.saveSettings(state);
   }
 
   Future<void> updateSettings(PeriodtSettings newSettings) async {
-    state = state.copyWith();
+    state = newSettings;
 
-    await repository.saveSettings(state);
+    await _repository.saveSettings(state);
   }
 
-  Future<void> updateSecurity(SecuritySettings security) async {
-    state = state.copyWith(security: security);
+  Future updateTrackedSettings(Function(TrackedSymptomsSettings) update) async {
+    final newTrackedSettings = update(state.trackedSymptoms);
+    state = state.copyWith(trackedSymptoms: newTrackedSettings);
 
-    await repository.saveSettings(state);
+    await _repository.saveSettings(state);
+  }
+
+  Future updateDeveloperSettings(Function(DeveloperSettings) update) async {
+    final newDeveloperSettings = update(state.developer);
+    state = state.copyWith(developer: newDeveloperSettings);
+
+    await _repository.saveSettings(state);
+  }
+
+  Future<void> updateSecuritySettings(Function(SecuritySettings) update) async {
+    final newSecuritySettings = update(state.security);
+    state = state.copyWith(security: newSecuritySettings);
+
+    await _repository.saveSettings(state);
   }
 }
 

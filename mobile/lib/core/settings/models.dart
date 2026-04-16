@@ -1,4 +1,8 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:periodt/core/forcast/backend/models.dart';
+import 'package:periodt/core/utilities/range.dart';
+import 'package:periodt/features/setup/data/pages/cycle_length.dart';
+import 'package:periodt/features/setup/data/pages/period_length.dart';
 
 part 'models.freezed.dart';
 part 'models.g.dart';
@@ -39,6 +43,19 @@ abstract class TrackedSymptomsSettings with _$TrackedSymptomsSettings {
 }
 
 @freezed
+abstract class CycleSettings with _$CycleSettings {
+  const factory CycleSettings({
+    @Default(26) int lowerCycleLength,
+    @Default(28) int upperCycleLength,
+    @Default(4) int lowerPeriodLength,
+    @Default(6) int upperPeriodLength,
+  }) = _CycleSettings;
+
+  factory CycleSettings.fromJson(Map<String, dynamic> json) =>
+      _$CycleSettingsFromJson(json);
+}
+
+@freezed
 abstract class NotificationSettings with _$NotificationSettings {
   const factory NotificationSettings({
     @Default(RequestedSetting.ask) RequestedSetting enabled,
@@ -54,6 +71,7 @@ abstract class UserSettings with _$UserSettings {
     @Default(null) String? name,
     @Default("en") String locale,
     @Default(null) int? age,
+    @Default(false) bool showFertility,
   }) = _UserSettings;
 
   factory UserSettings.fromJson(Map<String, dynamic> json) =>
@@ -61,13 +79,26 @@ abstract class UserSettings with _$UserSettings {
 }
 
 @freezed
+abstract class DeveloperSettings with _$DeveloperSettings {
+  const factory DeveloperSettings({
+    @Default(ForcastModel.simple) ForcastModel forecastModel,
+  }) = _DeveloperSettings;
+
+  factory DeveloperSettings.fromJson(Map<String, dynamic> json) =>
+      _$DeveloperSettingsFromJson(json);
+}
+
+@freezed
 abstract class PeriodtSettings with _$PeriodtSettings {
   const factory PeriodtSettings({
     @Default(1) int version,
     @Default(false) bool setupComplete,
-    @Default(UserSettings()) user,
+    @Default(UserSettings()) UserSettings user,
+    @Default(CycleSettings()) CycleSettings cycle,
     @Default(SecuritySettings()) SecuritySettings security,
     @Default(NotificationSettings()) NotificationSettings notifications,
+    @Default(TrackedSymptomsSettings()) TrackedSymptomsSettings trackedSymptoms,
+    @Default(DeveloperSettings()) DeveloperSettings developer,
   }) = _PeriodtSettings;
 
   factory PeriodtSettings.fromJson(Map<String, dynamic> json) =>
