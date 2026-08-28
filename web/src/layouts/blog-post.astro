@@ -32,7 +32,7 @@ const { title, description, date, updated_date, image } = Astro.props;
 								</div>
 							)
 						}
-						<FormattedDate date={date} />
+						{date && <FormattedDate date={date} />}
 					</div>
 
 					<h1>{title}</h1>
