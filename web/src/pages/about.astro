@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import about_us_banner from "../assets/blog-placeholder-about.jpg";
+import CharlieAsBlob from "../assets/blog/about/charlie_as_blob.png";
 import Layout from "../layouts/blog-post.astro";
 ---
 
@@ -53,6 +55,14 @@ import Layout from "../layouts/blog-post.astro";
 		accounts.
 	</p>
 	<p><strong>Charlie Wood</strong></p>
+
+	<Image
+		class="block mx-auto"
+		width="300"
+		height="300"
+		src={CharlieAsBlob}
+		alt=""
+	/>
 	<p>
 		Helping my partner through her menstrual health problems and seeing her
 		struggle with getting <del>adequate</del> any medical support is really where
