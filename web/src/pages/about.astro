@@ -1,7 +1,8 @@
 ---
 import { Image } from 'astro:assets';
-import about_us_banner from "../assets/blog-placeholder-about.jpg";
+import about_us_banner from "../assets/blog/about/about_us_banner.png";
 import CharlieAsBlob from "../assets/blog/about/charlie_as_blob.png";
+import julia_as_blob from "../assets/blog/about/julia_as_blob.png";
 import Layout from "../layouts/blog-post.astro";
 ---
 
@@ -18,6 +19,14 @@ import Layout from "../layouts/blog-post.astro";
 		trust us, it's only natural to want to know a bit about who we are.
 	</p>
 	<p><strong>Julia Wisniewska</strong></p>
+
+	<Image
+		class="block mx-auto"
+		width="300"
+		height="300"
+		src={julia_as_blob}
+		alt=""
+	/>
 	<p>
 		My rambling about how awful the privacy features and period predictions 
 		in current period tracker apps are is part of what led us to develop 
