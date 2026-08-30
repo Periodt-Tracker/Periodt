@@ -2,30 +2,24 @@ import 'package:app/core/forms/widgets/text_field.dart';
 import 'package:app/features/setup/bloc/setup_wizard_bloc.dart';
 import 'package:app/features/setup/bloc/wizard_event.dart';
 import 'package:app/features/setup/bloc/wizard_state.dart';
+import 'package:app/features/setup/domain/contraception_type.dart';
+import 'package:app/features/setup/presentation/pages/contraception/contraception_form_cubit.dart';
 import 'package:app/features/setup/presentation/pages/name/name_field_input.dart';
 import 'package:app/features/setup/presentation/pages/name/name_form_cubit.dart';
 import 'package:app/features/setup/presentation/pages/name/name_form_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class NamePage extends StatelessWidget {
-  const NamePage({required this.wizard, super.key});
+class ContraceptionPage extends StatelessWidget {
+  const ContraceptionPage({required this.wizard, super.key});
 
   final SetupWizardBloc wizard;
 
-  void _onSubmit(ContraceptionDetails details) {
-    wizard.add(
-      SetupWizardEvent.contraceptionSubmitted(type: details),
-    );
+  void _onSubmit(ContraceptionType details) {
+    wizard.add(SetupWizardEvent.contraceptionSubmitted(type: details));
   }
 
-  /// Builds the form widget for the name input page.
-  ///
-  /// This widget consists of a text field for the user to input their name and
-  /// a button to submit the form. It uses the provided [NameFormCubit] to
-  /// manage the form state and validation.
-  ///
-  Widget _form(NameFormCubit cubit, NameFormState state) {
+  Widget _form(ContraceptionFormCubit cubit, NameFormState state) {
     return Column(
       children: [
         PeriodtTextField(

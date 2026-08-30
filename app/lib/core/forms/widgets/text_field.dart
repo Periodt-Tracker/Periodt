@@ -30,6 +30,7 @@ class PeriodtTextField<Value, E> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final err = field.displayError;
+
     return TextField(
       onChanged: onChanged,
       onTapOutside: (_) => onTouched(),

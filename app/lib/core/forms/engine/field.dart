@@ -39,13 +39,18 @@ abstract class PeriodtInput<RawValue, Value, E> {
   bool get isValid => !isError;
 
   /// Safer than `transformed!` at a call site — the branch you're in is the proof.
-  T fold<T>({
+  T? fold<T>({
     required T Function(Value value) valid,
-    required T Function(E error) invalid,
-  }) => switch (_result) {
-    Valid(:final value) => valid(value),
-    Invalid(:final error) => invalid(error),
-  };
+    required void Function(E error) invalid,
+  }) {
+    switch (_result) {
+      case Valid(:final value):
+        return valid(value);
+      case Invalid(:final error):
+        invalid(error);
+        return null;
+    }
+  }
 
   ValidationResult<Value, E> validate(RawValue value);
 

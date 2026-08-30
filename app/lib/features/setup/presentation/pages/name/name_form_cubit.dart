@@ -5,9 +5,10 @@ import 'package:app/features/setup/presentation/pages/name/name_form_state.dart'
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NameFormCubit extends Cubit<NameFormState> {
-  final void Function(NameDetails) onSubmit;
+  NameFormCubit({required this.onSubmit, NameDetails? initialDetails})
+    : super(NameFormState.initial(initialDetails));
 
-  NameFormCubit({required this.onSubmit}) : super(NameFormState.initial());
+  final void Function(NameDetails) onSubmit;
 
   void nameChanged(String name) {
     final newName = NameFieldInput.dirty(name);
@@ -21,7 +22,7 @@ class NameFormCubit extends Cubit<NameFormState> {
     emit(state.copyWith(name: newName));
   }
 
-  void _handleValidSubmit(String name) {
+  void _handleValid(String name) {
     final newState = state.copyWith(
       name: NameFieldInput.dirty(name),
       status: PeriodtFormStatus.inProgress,
@@ -33,7 +34,7 @@ class NameFormCubit extends Cubit<NameFormState> {
     onSubmit(details);
   }
 
-  void _handleInvalidSubmit(_) {
+  void _handleInvalid(_) {
     final newState = state.copyWith(
       name: NameFieldInput.dirty(state.name.value),
       status: PeriodtFormStatus.failure,
@@ -42,7 +43,10 @@ class NameFormCubit extends Cubit<NameFormState> {
     emit(newState);
   }
 
-  void submit() {
-    state.name.fold(valid: _handleValidSubmit, invalid: _handleInvalidSubmit);
+  void trySubmit() {
+    state.name.fold(
+      valid: _handleValid,
+      invalid: _handleInvalid,
+    );
   }
 }

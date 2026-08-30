@@ -1,0 +1,3 @@
+class DailyLogWizardBloc extends Bloc<> {
+  
+}
