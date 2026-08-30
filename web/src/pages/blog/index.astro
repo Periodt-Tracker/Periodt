@@ -30,7 +30,11 @@ const posts = (await getCollection("blog")).sort(
 							<li class="lg:first:col-span-2 lg:first:text-center">
 								<a href={`/blog/${post.id}/`}>
 									{post.data.image && (
-										<Image src={post.data.image} alt="" />
+										<Image
+											src={post.data.image}
+											alt=""
+											class="rounded-2xl"
+										/>
 									)}
 
 									<h4 class="title font-bold text-2xl mt-4">
