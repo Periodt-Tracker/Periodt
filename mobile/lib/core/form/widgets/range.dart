@@ -1,31 +1,20 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:periodt/core/form/models/field.dart';
-import 'package:periodt/core/utilities/list.dart';
 import 'package:periodt/core/utilities/range.dart';
 
 class RangePicker extends HookWidget {
-  final PeriodtField<Range<int>, String> field;
-
-  final FixedExtentScrollController _lowerController =
-      FixedExtentScrollController();
-  final FixedExtentScrollController _upperController =
-      FixedExtentScrollController();
-
+  final PeriodtField<Range<int>, String> formField;
   final int min;
   final int max;
-
   final Widget Function(int) formatter;
   final double itemExtent;
   final double magnification;
   final double squeeze;
   final bool useMagnifier;
 
-  late final List<int> _lowerItems = range(min, max - 1);
-  late final List<int> _upperItems = range(min + 1, max);
-
-  RangePicker(
-    this.field, {
+  const RangePicker(
+    this.formField, {
     super.key,
     required this.min,
     required this.max,
@@ -36,67 +25,108 @@ class RangePicker extends HookWidget {
     this.useMagnifier = true,
   }) : assert(min < max, 'min must be less than max');
 
-  void setLower(int index) {
-    final upper = field.field.upper;
-    final value = index + min;
-
-    if (value >= upper) {
-      final newUpper = value + 1;
-      field.setValue(Range(lower: value, upper: newUpper));
-
-      _upperController.animateToItem(
-        newUpper - min - 1,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-    } else {
-      field.setValue(Range(lower: value, upper: upper));
-    }
-  }
-
-  void setUpper(int index) {
-    final lower = field.field.lower;
-    final value = index + min + 1;
-
-    if (value <= lower) {
-      final newLower = value - 1;
-      field.setValue(Range(lower: newLower, upper: value));
-
-      _lowerController.animateToItem(
-        newLower - min,
-        duration: const Duration(milliseconds: 300),
-        curve: Curves.easeInOut,
-      );
-    } else {
-      field.setValue(Range(lower: lower, upper: value));
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
+    final field = useValueListenable(formField);
+
+    final lowerController = useFixedExtentScrollController(
+      initialItem: field.value.lower - min,
+    );
+    final upperController = useFixedExtentScrollController(
+      initialItem: field.value.upper - (min + 1),
+    );
+
+    // This single effect handles both syncing external data AND the
+    // bounce-back animation if the user scrolls into the disabled zone.
+    useEffect(() {
+      final expectedLower = field.value.lower - min;
+      final expectedUpper = field.value.upper - (min + 1);
+
+      if (lowerController.hasClients &&
+          lowerController.selectedItem != expectedLower) {
+        lowerController.animateToItem(
+          expectedLower,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOutCubic,
+        );
+      }
+      if (upperController.hasClients &&
+          upperController.selectedItem != expectedUpper) {
+        upperController.animateToItem(
+          expectedUpper,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOutCubic,
+        );
+      }
+      return null;
+    }, [field.value.lower, field.value.upper]);
+
+    final List<int> lowerItems = List.generate(max - min, (i) => min + i);
+    final List<int> upperItems = List.generate(max - min, (i) => min + 1 + i);
+
+    void setLower(int index) {
+      final value = min + index;
+      final currentUpper = formField.value.value.upper;
+
+      if (value >= currentUpper) {
+        // Clamp it: Do not allow the lower value to reach or exceed the upper value
+        formField.setValue(Range(lower: currentUpper - 1, upper: currentUpper));
+      } else {
+        formField.setValue(Range(lower: value, upper: currentUpper));
+      }
+    }
+
+    void setUpper(int index) {
+      final value = (min + 1) + index;
+      final currentLower = formField.value.value.lower;
+
+      if (value <= currentLower) {
+        // Clamp it: Do not allow the upper value to reach or drop below the lower value
+        formField.setValue(Range(lower: currentLower, upper: currentLower + 1));
+      } else {
+        formField.setValue(Range(lower: currentLower, upper: value));
+      }
+    }
+
     return Row(
       children: [
         Expanded(
           child: CupertinoPicker(
             itemExtent: itemExtent,
-            scrollController: _lowerController,
+            scrollController: lowerController,
             magnification: magnification,
             squeeze: squeeze,
             useMagnifier: useMagnifier,
             onSelectedItemChanged: setLower,
-            children: _lowerItems.map(formatter).toList(),
+            children: lowerItems.map((val) {
+              final isDisabled = val >= field.value.upper;
+              return Opacity(
+                opacity: isDisabled
+                    ? 0.3
+                    : 1.0, // Visually grey out disabled items
+                child: formatter(val),
+              );
+            }).toList(),
           ),
         ),
         const Text("-"),
         Expanded(
           child: CupertinoPicker(
             itemExtent: itemExtent,
-            scrollController: _upperController,
+            scrollController: upperController,
             magnification: magnification,
             squeeze: squeeze,
             useMagnifier: useMagnifier,
             onSelectedItemChanged: setUpper,
-            children: _upperItems.map(formatter).toList(),
+            children: upperItems.map((val) {
+              final isDisabled = val <= field.value.lower;
+              return Opacity(
+                opacity: isDisabled
+                    ? 0.3
+                    : 1.0, // Visually grey out disabled items
+                child: formatter(val),
+              );
+            }).toList(),
           ),
         ),
       ],

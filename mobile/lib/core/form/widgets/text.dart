@@ -25,7 +25,16 @@ class HookedTextField extends HookWidget {
 
     return TextField(
       onChanged: (value) => state.setValue(value),
-      decoration: InputDecoration(errorText: state.displayError),
+      decoration: InputDecoration(
+        hintText: 'Your name...',
+        filled: true,
+        fillColor: Colors.grey[100],
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(15),
+          borderSide: BorderSide.none,
+        ),
+        errorText: state.displayError,
+      ),
     );
   }
 }

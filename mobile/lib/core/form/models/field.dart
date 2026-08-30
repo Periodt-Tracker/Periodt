@@ -1,84 +1,65 @@
 import 'package:flutter/foundation.dart';
-import 'package:periodt/core/widgets/form/validator/base.dart';
+import 'field_state.dart';
 
-@immutable
-class PeriodtFieldState<T, E> {
-  final T value;
-  final bool touched;
-  final bool dirty;
-  final E? error;
+/// A function that takes a value of type [T] and returns an error of type [E]
+/// if the value is invalid, or `null` if it is valid.
+typedef ValidatorFn<T, E> = E? Function(T? value);
 
-  const PeriodtFieldState({
-    required this.value,
-    this.error,
-    this.touched = false,
-    this.dirty = false,
-  });
+/// A reactive form field that manages its own state, validation, and lifecycle.
+///
+/// Extends [ValueNotifier] so that individual UI components can listen to
+/// granular changes without rebuilding the entire form.
+class PeriodtField<T, E> extends ValueNotifier<PeriodtFieldState<T, E>> {
+  /// The list of validation functions to run against the field's value.
+  final List<ValidatorFn<T, E>> validators;
 
-  bool get isValid => error == null;
+  /// Creates a new [PeriodtField] with an initial [value].
+  ///
+  /// Validators are run immediately upon initialization so that the initial
+  /// validity state is accurate before any user interaction.
+  PeriodtField(T value, {this.validators = const []})
+    : super(PeriodtFieldState(value: value)) {
+    _validate(value);
+  }
 
-  bool get isNotValid => !isValid;
+  /// Convenience getter for the underlying field value.
+  T get field => value.value;
 
-  E? get displayError => error;
+  /// Convenience getter indicating if the field has been touched.
+  bool get touched => value.touched;
 
-  PeriodtFieldState<T, E> copyWith({T? value, bool? touched, E? error}) {
-    return PeriodtFieldState(
-      value: value ?? this.value,
-      touched: touched ?? this.touched,
+  /// Convenience getter indicating if the field is currently valid.
+  bool get isValid => value.isValid;
+
+  /// Convenience getter for the displayable error (returns null if untouched).
+  E? get displayError => value.displayError;
+
+  /// Runs all validators against the provided [update] and updates the state.
+  ///
+  /// Breaks on the first validator that returns an error.
+  void _validate(T update) {
+    E? newError;
+    for (final validator in validators) {
+      newError = validator(update);
+      if (newError != null) break;
+    }
+
+    value = value.copyWith(
+      value: update,
       dirty: true,
-      error: error,
+      error: newError ?? ClearError(),
     );
   }
 
-  @override
-  int get hashCode => Object.hashAll([value, touched, dirty]);
-
-  @override
-  bool operator ==(Object other) {
-    if (other.runtimeType != runtimeType) {
-      return false;
-    }
-
-    return other is PeriodtFieldState<T, E> &&
-        other.value == value &&
-        other.touched == touched &&
-        other.dirty == dirty;
-  }
-}
-
-class PeriodtField<T, E> extends ValueNotifier<PeriodtFieldState<T, E>> {
-  final List<ValidatorFn<T, E>> validators;
-
-  PeriodtField(T value, {required this.validators})
-    : super(PeriodtFieldState(value: value));
-
-  T get field => value.value;
-
-  bool get touched => value.touched;
-
-  bool get isValid => value.isValid;
-
-  E? get displayError => value.displayError;
-
-  E? _runValidators(T? value) {
-    for (final validator in validators) {
-      final error = validator(value);
-
-      if (error != null) {
-        return error;
-      }
-    }
-
-    return null;
-  }
-
+  /// Updates the field's value and triggers validation.
   void setValue(T update) {
-    final error = _runValidators(update);
-
-    value = value.copyWith(value: update, error: error);
+    _validate(update);
   }
 
+  /// Marks the field as touched, allowing validation errors to be displayed.
   void touch() {
-    value = value.copyWith(touched: true);
+    if (!value.touched) {
+      value = value.copyWith(touched: true);
+    }
   }
 }

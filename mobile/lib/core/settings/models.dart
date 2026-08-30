@@ -1,8 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:periodt/core/forcast/backend/models.dart';
-import 'package:periodt/core/utilities/range.dart';
-import 'package:periodt/features/setup/data/pages/cycle_length.dart';
-import 'package:periodt/features/setup/data/pages/period_length.dart';
 
 part 'models.freezed.dart';
 part 'models.g.dart';

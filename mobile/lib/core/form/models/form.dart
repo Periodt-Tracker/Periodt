@@ -1,40 +1,64 @@
 import 'package:flutter/foundation.dart';
-import 'package:periodt/core/form/models/field.dart';
+import 'field.dart';
 
-/// Class which contains methods that help manipulate and manage
-/// validity of [FormInput] instances.
-class FormHelpers {
-  /// Returns a [bool] given a list of [FormInput] indicating whether
-  /// the inputs are all valid.
-  static bool validate(List<PeriodtField> inputs) {
-    return inputs.every((input) => input.isValid);
+typedef SubmitFunction<T> = void Function(T value);
+
+/// Represents a single page or section within a form wizard.
+///
+/// Operates as a scoped [ChangeNotifier] that listens to its own [fields].
+/// It only alerts its listeners (e.g., the WizardController) when the *overall* /// validity of the page changes, preventing excessive rebuilds on every keystroke.
+abstract class PeriodtFormPage extends ChangeNotifier {
+  /// Tracks the previous validity state to determine if listeners should be notified.
+  bool _previousValidState = false;
+
+  PeriodtFormPage() {
+    for (var field in fields) {
+      field.addListener(_onFieldChanged);
+    }
+    // Initialize the starting state
+    _previousValidState = isValid;
   }
 
-  /// Returns a [bool] given a list of [FormInput] indicating whether
-  /// all the inputs are pure.
-  static bool isPure(List<PeriodtField> inputs) {
-    return inputs.every((input) => input.touched == false);
+  /// The list of [PeriodtField] instances contained on this page.
+  List<PeriodtField> get fields;
+
+  /// Whether the user is allowed to skip this page without filling it out.
+  bool get skippable => false;
+
+  /// Internal listener attached to all fields.
+  void _onFieldChanged() {
+    final currentValidState = isValid;
+    if (_previousValidState != currentValidState) {
+      _previousValidState = currentValidState;
+      notifyListeners();
+    }
   }
-}
 
-abstract class PeriodtFormState {
-  /// Whether the [FormInput] values are all valid.
-  bool get isValid => FormHelpers.validate(fields);
+  /// Returns `true` if every field on this page is valid.
+  bool get isValid => fields.every((field) => field.isValid);
 
-  /// Whether the [FormInput] values are not all valid.
-  bool get isNotValid => !isValid;
+  /// Returns `true` if no fields on this page have been touched.
+  bool get isPure => fields.every((field) => !field.touched);
 
-  /// Whether all of the [FormInput] are pure.
-  bool get isPure => FormHelpers.isPure(fields);
-
-  /// Whether at least one of the [FormInput]s is dirty.
+  /// Returns `true` if at least one field on this page has been touched.
   bool get isDirty => !isPure;
 
-  Listenable get listenable => Listenable.merge(fields);
+  /// Marks all fields on this page as touched.
+  ///
+  /// Typically called when a user attempts to submit or skip the page prematurely,
+  /// forcing the UI to reveal any hidden validation errors.
+  void touchAll() {
+    for (var field in fields) {
+      field.touch();
+    }
+  }
 
-  List<PeriodtField> get fields;
-}
-
-abstract class PeriodtFormPage extends PeriodtFormState {
-  bool get skippable => false;
+  @override
+  void dispose() {
+    for (var field in fields) {
+      field.removeListener(_onFieldChanged);
+      field.dispose();
+    }
+    super.dispose();
+  }
 }

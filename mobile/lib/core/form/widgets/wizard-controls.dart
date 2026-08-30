@@ -19,71 +19,74 @@ class WizardControls extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListenableBuilder(
-          listenable: form.listenable,
-          builder: (_, _) => SizedBox(
-            width: double.infinity,
-            child: ElevatedButton.icon(
-              onPressed: form.isValid ? form.next : null,
-              iconAlignment: IconAlignment.end,
-              style: ElevatedButton.styleFrom(
-                backgroundColor: PeriodtTheme.period.primary,
-                foregroundColor: Colors.white,
-                textStyle: const TextStyle(fontWeight: FontWeight.bold),
+    return Padding(
+      padding: const EdgeInsets.only(top: 8.0),
+      child: Column(
+        children: [
+          ListenableBuilder(
+            listenable: form,
+            builder: (_, _) => SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: form.canContinue ? form.next : null,
+                iconAlignment: IconAlignment.end,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: PeriodtTheme.period.primary,
+                  foregroundColor: Colors.white,
+                  textStyle: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+                icon: const Icon(Icons.arrow_forward),
+                label: const Text("Continue"),
               ),
-              icon: const Icon(Icons.arrow_forward),
-              label: const Text("Continue"),
             ),
           ),
-        ),
-        SizedBox(
-          width: double.infinity,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              if (form.canGoBack) ...[
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: TextButton.icon(
-                    onPressed: form.back,
-                    icon: const Icon(Icons.arrow_back),
-                    style: TextButton.styleFrom(
-                      foregroundColor: Colors.black54,
+          SizedBox(
+            width: double.infinity,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                if (form.canGoBack) ...[
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: TextButton.icon(
+                      onPressed: form.back,
+                      icon: const Icon(Icons.arrow_back),
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.black54,
+                      ),
+                      label: Text("Back"),
                     ),
-                    label: Text("Back"),
                   ),
+                ],
+                SmoothPageIndicator(
+                  controller: form.pageController,
+                  count: form.stepCount,
+                  effect: WormEffect(
+                    activeDotColor: PeriodtTheme.period.primary,
+                    radius: 16,
+                    dotWidth: 12,
+                    dotHeight: 12,
+                    spacing: 4,
+                  ),
+                  onDotClicked: (index) => form.back(to: index),
                 ),
-              ],
-              SmoothPageIndicator(
-                controller: form.controller,
-                count: form.stepCount,
-                effect: WormEffect(
-                  activeDotColor: PeriodtTheme.period.primary,
-                  radius: 16,
-                  dotWidth: 12,
-                  dotHeight: 12,
-                  spacing: 4,
-                ),
-                onDotClicked: (index) => form.back(to: index),
-              ),
-              if (form.pageSkippable && !form.isLastPage) ...[
-                Align(
-                  alignment: Alignment.centerRight,
-                  child: TextButton(
-                    onPressed: form.next,
-                    style: TextButton.styleFrom(
-                      foregroundColor: Colors.black54,
+                if (form.pageSkippable && !form.isLastPage) ...[
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: TextButton(
+                      onPressed: form.next,
+                      style: TextButton.styleFrom(
+                        foregroundColor: Colors.black54,
+                      ),
+                      child: const Text("Skip"),
                     ),
-                    child: const Text("Skip"),
                   ),
-                ),
+                ],
               ],
-            ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

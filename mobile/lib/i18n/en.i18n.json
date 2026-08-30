@@ -1,0 +1,22 @@
+{
+    "name": "Periodt.",
+    "description": "Your private Periodt. tracker",
+    "setup": {
+        "welcome": "Welcome to Periodt.! Let's get you set up.",
+        "name": "What's your name?"
+    },
+    "home": {
+        "greeting(rich)": {
+            "generic": "Hello $name!",
+            "morning": "Good morning, $name!",
+            "afternoon": "Good afternoon, $name!",
+            "evening": "Good evening, $name!"
+        },
+        "status": {
+            "missing": "No period data available.",
+            "late": "Period $days late",
+            "period_in": "Period in $days days",
+            "period": "Period day $day"
+        }
+    }
+}

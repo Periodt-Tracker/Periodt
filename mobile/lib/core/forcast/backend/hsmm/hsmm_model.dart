@@ -155,10 +155,9 @@ List<int> hsmmViterbi(List<CycleObservation> observations) {
     }
   }
 
-  // ── Recursion ─────────────────────────────────────────────────────────────
   for (int t = 1; t < T; t++) {
     for (int s = 0; s < nStates; s++) {
-      final prevS = (s - 1 + nStates) % nStates; // deterministic predecessor
+      final prevS = (s - 1 + nStates) % nStates;
       for (int d = 1; d <= math.min(maxDuration, t + 1); d++) {
         final tStart = t - d + 1;
         if (tStart < 1) break;
@@ -178,10 +177,11 @@ List<int> hsmmViterbi(List<CycleObservation> observations) {
     }
   }
 
-  // ── Back-tracking ─────────────────────────────────────────────────────────
   final states = List.filled(T, 0);
+
   var bestS = 0;
   var bestVal = negInf;
+
   for (int s = 0; s < nStates; s++) {
     if (delta[T - 1][s] > bestVal) {
       bestVal = delta[T - 1][s];
@@ -190,12 +190,18 @@ List<int> hsmmViterbi(List<CycleObservation> observations) {
   }
 
   var t = T - 1;
+
   while (t >= 0) {
     final info = psi[t][bestS];
+
     if (info == null) {
-      for (int tt = 0; tt <= t; tt++) states[tt] = bestS;
+      for (int tt = 0; tt <= t; tt++) {
+        states[tt] = bestS;
+      }
+
       break;
     }
+
     final (prevS, d) = info;
     for (int tt = t - d + 1; tt <= t; tt++) states[tt] = bestS;
     t -= d;
