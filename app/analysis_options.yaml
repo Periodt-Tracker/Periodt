@@ -1,0 +1,32 @@
+include:
+  - package:flutter_lints/flutter.yaml
+  - package:very_good_analysis/analysis_options.yaml
+
+analyzer:
+  errors:
+    public_member_api_docs: ignore
+  plugins:
+    - custom_lint
+
+  language:
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
+  exclude:
+    - build/**
+    - android/**
+    - ios/**
+    - web/**
+    - windows/**
+    - macos/**
+    - linux/**
+
+linter:
+  rules:
+    always_declare_return_types: true
+    avoid_print: true
+    prefer_final_locals: true
+    close_sinks: true
+    cancel_subscriptions: true
+    prefer_final_fields: true
+    unnecessary_lambdas: true
