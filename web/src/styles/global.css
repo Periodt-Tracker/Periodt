@@ -117,7 +117,7 @@ blockquote {
 	@apply rounded-r-xl;
 
 	border-left: 4px solid var(--period-primary);
-	padding: 0 0 0 20px;
+	padding: 3px 3px 3px 20px;
 	margin: 0;
 	font-size: 1em;
 	background-color: #fbf5f3;
