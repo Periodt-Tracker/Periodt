@@ -1,5 +1,4 @@
 import 'package:app/core/forms/engine/form_status.dart';
-import 'package:app/core/utilities/date.dart';
 import 'package:app/features/setup/bloc/wizard_state.dart';
 import 'package:app/features/setup/presentation/pages/birthday/birthday_field.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -13,7 +12,7 @@ class BirthdayFormState with _$BirthdayFormState {
 
   const BirthdayFormState({required this.birthday, required this.status});
 
-  factory BirthdayFormState.initial({DateOnly? initialBirthday}) {
+  factory BirthdayFormState.initial({DateTime? initialBirthday}) {
     return BirthdayFormState(
       birthday: BirthdayFieldInput.pure(initialBirthday),
       status: PeriodtFormStatus.initial,
@@ -22,7 +21,7 @@ class BirthdayFormState with _$BirthdayFormState {
 
   factory BirthdayFormState.fromDetails(BirthdayDetails details) {
     return BirthdayFormState(
-      birthday: BirthdayFieldInput.dirty(details.birthday),
+      birthday: BirthdayFieldInput.dirty(details.birthday.toDateTime()),
       status: PeriodtFormStatus.initial,
     );
   }

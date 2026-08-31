@@ -11,7 +11,7 @@ class BirthdayFormCubit extends Cubit<BirthdayFormState> {
 
   final void Function(BirthdayDetails) onSubmit;
 
-  void birthdayChanged(DateOnly? birthday) {
+  void birthdayChanged(DateTime? birthday) {
     final newBirthday = BirthdayFieldInput.dirty(birthday);
 
     emit(state.copyWith(birthday: newBirthday));
@@ -24,8 +24,10 @@ class BirthdayFormCubit extends Cubit<BirthdayFormState> {
   }
 
   void _handleValidSubmit(DateOnly birthday) {
+    final dateTimeBirthday = birthday.toDateTime();
+
     final newState = state.copyWith(
-      birthday: BirthdayFieldInput.dirty(birthday),
+      birthday: BirthdayFieldInput.dirty(dateTimeBirthday),
       status: PeriodtFormStatus.inProgress,
     );
 
