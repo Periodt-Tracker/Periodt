@@ -2,6 +2,18 @@ import 'package:app/core/forms/engine/field.dart';
 import 'package:flutter/material.dart';
 
 class PeriodtTextField<Value, E> extends StatelessWidget {
+  const PeriodtTextField({
+    required this.field,
+    required this.onChanged,
+    required this.onTouched,
+    required this.errorText,
+    this.placeholder,
+    this.decoration,
+    this.keyboardType,
+    this.obscureText = false,
+    super.key,
+  });
+
   final PeriodtInput<String, Value, E> field;
 
   final ValueChanged<String> onChanged;
@@ -14,18 +26,6 @@ class PeriodtTextField<Value, E> extends StatelessWidget {
   final String? placeholder;
 
   final bool obscureText;
-
-  const PeriodtTextField({
-    required this.field,
-    required this.onChanged,
-    required this.onTouched,
-    required this.errorText,
-    this.placeholder,
-    this.decoration,
-    this.keyboardType,
-    this.obscureText = false,
-    super.key,
-  });
 
   @override
   Widget build(BuildContext context) {
