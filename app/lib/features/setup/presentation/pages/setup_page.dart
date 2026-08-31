@@ -1,6 +1,7 @@
 import 'package:app/app/theme/base.dart';
 import 'package:app/features/setup/bloc/setup_wizard_bloc.dart';
 import 'package:app/features/setup/bloc/wizard_state.dart';
+import 'package:app/features/setup/presentation/pages/birthday/birthday_page.dart';
 import 'package:app/features/setup/presentation/pages/name/name_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -54,11 +55,11 @@ class SetupPage extends StatelessWidget {
     );
   }
 
-  Widget _pageContent(SetupWizardState state) {
+  Widget _pageContent(SetupWizardBloc wizard, SetupWizardState state) {
     return switch (state) {
-      NamePageState() => NamePage(wizard: SetupWizardBloc()),
+      NamePageState() => NamePage(wizard),
       // TODO: Handle this case.
-      BirthdayPageState() => throw UnimplementedError(),
+      BirthdayPageState() => BirthdayPage(wizard),
       // TODO: Handle this case.
       ContraceptionPageState() => throw UnimplementedError(),
       // TODO: Handle this case.
@@ -103,7 +104,7 @@ class SetupPage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

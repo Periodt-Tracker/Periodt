@@ -3,7 +3,10 @@ import 'package:app/app/app_phase.dart';
 import 'package:app/app/theme/base.dart';
 import 'package:app/core/logging/app_logger_initialiser.dart';
 import 'package:app/core/logging/observers/blob_logging_observer.dart';
+import 'package:app/core/settings/settings_cubit.dart';
 import 'package:app/core/settings/settings_repository.dart';
+import 'package:app/core/settings/settings_state.dart';
+import 'package:app/features/setup/bloc/setup_wizard_bloc.dart';
 import 'package:app/features/setup/presentation/pages/setup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,20 +27,28 @@ class PeriodtApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final repository = MockSettingsRepository();
-    final bloc = AppBloc(repository)..add(const AppEvent.started());
-
-    final wizard = SetupWizardBloc();
+    final settingsCubit = SettingsCubit(repository: repository);
 
     return MaterialApp(
       title: 'Periodt',
       theme: PeriodtTheme.light,
-      home: BlocBuilder<AppBloc, AppPhase>(
-        bloc: bloc,
+      home: BlocBuilder<SettingsCubit, SettingsState>(
+        bloc: settingsCubit,
         builder: (context, state) {
           return switch (state) {
-            Startup() => const Text('Starting...'),
-            Setup() => SetupPage(wizard: wizard),
-            Ready(:final settings) => const Text('Ready!'),
+            // TODO: We should probably have a proper splash screen here
+            SettingsLoading() => const Center(
+              child: CircularProgressIndicator(),
+            ),
+
+            // todo: it may be worth introducing a sort of "recovery"
+            // protocol for corrupted settings
+            //
+            SettingsMissing() || SettingsInvalid() => SetupPage(
+              wizard: SetupWizardBloc(settings: settingsCubit),
+            ),
+
+            SettingsValid(:final settings) => const Text('AAA'),
           };
         },
       ),
