@@ -1,7 +1,7 @@
 ---
 title: 'Understanding your Period'
 description: 'An introduction to your menstrual cycle'
-date: '2026-09-01'
+date: '2026-09-02'
 image: '../../assets/blog/understanding_your_period/understanding-your-period-banner.png'
 category: 'Cycle School'
 ---
