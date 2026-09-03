@@ -1,4 +1,5 @@
 import 'package:app/core/forms/engine/field.dart';
+import 'package:clock/clock.dart';
 import 'package:flutter/cupertino.dart';
 
 class PeriodtDateField<T, E> extends StatelessWidget {
@@ -27,7 +28,7 @@ class PeriodtDateField<T, E> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final initialDate = field.value ?? DateTime.now();
+    final initialDate = field.value ?? DateTime(2007, 5, 15);
 
     return CupertinoDatePicker(
       initialDateTime: initialDate,
