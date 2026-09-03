@@ -71,7 +71,7 @@ class PeriodtTheme {
     );
 
     return base.copyWith(
-      scaffoldBackgroundColor: background,
+      scaffoldBackgroundColor: surface,
 
       // ─────────────────────────────────────────
       // Typography
@@ -152,17 +152,17 @@ class PeriodtTheme {
         style: ElevatedButton.styleFrom(
           backgroundColor: primary,
           foregroundColor: Colors.white,
-          elevation: 2,
+          elevation: 4,
           shadowColor: Colors.black26,
 
-          minimumSize: const Size(double.infinity, 54),
+          minimumSize: const Size(double.infinity, 64),
 
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(28),
+            borderRadius: BorderRadius.circular(36),
           ),
 
           textStyle: GoogleFonts.outfit(
-            fontSize: 15,
+            fontSize: 20,
             fontWeight: FontWeight.w600,
           ),
         ),
