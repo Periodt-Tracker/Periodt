@@ -211,6 +211,10 @@ class CopperIudPeriodsPageState extends SetupWizardState {
     required this.iudDetails,
     this.lastPeriods,
   });
+
+  @override
+  // TODO: implement progress
+  double get progress => 0;
 }
 
 class CopperIudPeriodMetadataPageState extends SetupWizardState {
@@ -227,6 +231,10 @@ class CopperIudPeriodMetadataPageState extends SetupWizardState {
     required this.lastPeriods,
     this.metadata,
   });
+
+  @override
+  // TODO: implement progress
+  double get progress => 0;
 }
 
 class CopperIudCompletedState extends CompletedSetupWizardState {
@@ -241,6 +249,10 @@ class CopperIudCompletedState extends CompletedSetupWizardState {
     required this.lastPeriods,
     required this.metadata,
   });
+
+  @override
+  // TODO: implement progress
+  double get progress => 0;
 }
 
 class CopperIudAndPillIudDetailsPageState extends SetupWizardState {
@@ -253,6 +265,10 @@ class CopperIudAndPillIudDetailsPageState extends SetupWizardState {
     required this.birthday,
     this.iudDetails,
   });
+
+  @override
+  // TODO: implement progress
+  double get progress => 0;
 }
 
 class CopperIudAndPillPillDetailsPageState extends SetupWizardState {
@@ -267,6 +283,10 @@ class CopperIudAndPillPillDetailsPageState extends SetupWizardState {
     required this.iudDetails,
     this.pillDetails,
   });
+
+  @override
+  // TODO: implement progress
+  double get progress => 0;
 }
 
 class CopperIudAndPillCompletedState extends CompletedSetupWizardState {
@@ -279,6 +299,10 @@ class CopperIudAndPillCompletedState extends CompletedSetupWizardState {
     required this.iudDetails,
     required this.pillDetails,
   });
+
+  @override
+  // TODO: implement progress
+  double get progress => 0;
 }
 
 class HormonalIudAndPillIudDetailsPageState extends SetupWizardState {
@@ -291,6 +315,10 @@ class HormonalIudAndPillIudDetailsPageState extends SetupWizardState {
     required this.birthday,
     this.iudDetails,
   });
+
+  @override
+  // TODO: implement progress
+  double get progress => 0;
 }
 
 class HormonalIudAndPillPillDetailsPageState extends SetupWizardState {
@@ -305,6 +333,10 @@ class HormonalIudAndPillPillDetailsPageState extends SetupWizardState {
     required this.iudDetails,
     this.pillDetails,
   });
+
+  @override
+  // TODO: implement progress
+  double get progress => 0;
 }
 
 class HormonalIudAndPillCompletedState extends CompletedSetupWizardState {
@@ -317,4 +349,8 @@ class HormonalIudAndPillCompletedState extends CompletedSetupWizardState {
     required this.iudDetails,
     required this.pillDetails,
   });
+
+  @override
+  // TODO: implement progress
+  double get progress => 0;
 }

@@ -11,10 +11,20 @@ abstract interface class SettingsRepository {
   Future<void> saveSettings(PeriodtSettings settings);
 }
 
-class MockSettingsRepository implements SettingsRepository {
+class FailingSettingsRepository implements SettingsRepository {
   @override
   Future<SettingsState> loadSettings() async {
     return SettingsState.missing();
+  }
+
+  @override
+  Future<void> saveSettings(PeriodtSettings settings) async {}
+}
+
+class MockSettingsRepository implements SettingsRepository {
+  @override
+  Future<SettingsState> loadSettings() async {
+    return const SettingsState.valid(PeriodtSettings());
   }
 
   @override

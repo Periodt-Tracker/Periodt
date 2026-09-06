@@ -2,8 +2,12 @@ import 'package:app/app/theme/base.dart';
 import 'package:app/features/setup/bloc/setup_wizard_bloc.dart';
 import 'package:app/features/setup/bloc/wizard_state.dart';
 import 'package:app/features/setup/presentation/pages/birthday/birthday_page.dart';
+import 'package:app/features/setup/presentation/pages/contraception/contraception_page.dart';
 import 'package:app/features/setup/presentation/pages/name/name_page.dart';
+import 'package:app/features/setup/presentation/pages/period/period_page.dart';
+import 'package:app/features/setup/presentation/pages/period_metadata/period_metadata_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 const maxPageCount = 4;
@@ -11,10 +15,28 @@ const maxPageCount = 4;
 const minimumProgress = 0.1;
 const maximumProgress = 0.9;
 
-class SetupPage extends StatelessWidget {
-  const SetupPage({required this.wizard, super.key});
+class SetupPage extends StatefulWidget {
+  const SetupPage({super.key});
 
-  final SetupWizardBloc wizard;
+  @override
+  State<SetupPage> createState() => _SetupPageState();
+}
+
+class _SetupPageState extends State<SetupPage> {
+  @override
+  void initState() {
+    super.initState();
+    _wizard = SetupWizardBloc();
+  }
+
+  @override
+  Future<void> dispose() async {
+    super.dispose();
+
+    await _wizard.close();
+  }
+
+  late final SetupWizardBloc _wizard;
 
   // in general we want to avoid the progress bar ever going backwards
   // and so we shall always show the completion against the furthest
@@ -44,59 +66,93 @@ class SetupPage extends StatelessWidget {
         ),
         ClipRRect(
           borderRadius: BorderRadius.circular(999),
-          child: const LinearProgressIndicator(
-            value: 0.3,
-            minHeight: 12,
-            backgroundColor: PeriodtTheme.surfacePink,
-            valueColor: AlwaysStoppedAnimation(PeriodtTheme.primary),
+          child: SizedBox(
+            height: 12,
+            child: Stack(
+              children: [
+                Container(
+                  color: PeriodtTheme.surfacePink,
+                ),
+                FractionallySizedBox(
+                  widthFactor: state.progress,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: PeriodtTheme.primary,
+                      borderRadius: BorderRadius.circular(999),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ],
     );
   }
 
-  Widget _pageContent(SetupWizardBloc wizard, SetupWizardState state) {
-    return switch (state) {
+  Widget _pageContent(SetupWizardBloc wizard) {
+    return switch (wizard.state) {
       NamePageState() => NamePage(wizard),
-      // TODO: Handle this case.
+
       BirthdayPageState() => BirthdayPage(wizard),
-      // TODO: Handle this case.
-      ContraceptionPageState() => throw UnimplementedError(),
-      // TODO: Handle this case.
-      NoContraceptionPeriodPageState() => throw UnimplementedError(),
-      // TODO: Handle this case.
-      NoContraceptionPeriodMetadataPageState() => throw UnimplementedError(),
-      // TODO: Handle this case.
+
+      ContraceptionPageState() => ContraceptionPage(wizard),
+
+      NoContraceptionPeriodPageState() => PeriodPage(wizard),
+
+      NoContraceptionPeriodMetadataPageState() => PeriodMetadataPage(wizard),
+
       PillDetailsPageState() => throw UnimplementedError(),
-      // TODO: Handle this case.
+
       HormonalIudDetailsPageState() => throw UnimplementedError(),
-      // TODO: Handle this case.
+
       CopperIudDetailsPageState() => throw UnimplementedError(),
-      // TODO: Handle this case.
-      CopperIudPeriodsPageState() => throw UnimplementedError(),
-      // TODO: Handle this case.
-      CopperIudPeriodMetadataPageState() => throw UnimplementedError(),
-      // TODO: Handle this case.
+
+      CopperIudPeriodsPageState() => PeriodPage(wizard),
+
+      CopperIudPeriodMetadataPageState() => PeriodMetadataPage(wizard),
+
       CopperIudAndPillIudDetailsPageState() => throw UnimplementedError(),
-      // TODO: Handle this case.
+
       CopperIudAndPillPillDetailsPageState() => throw UnimplementedError(),
-      // TODO: Handle this case.
+
       HormonalIudAndPillIudDetailsPageState() => throw UnimplementedError(),
-      // TODO: Handle this case.
+
       HormonalIudAndPillPillDetailsPageState() => throw UnimplementedError(),
-      // TODO: Handle this case.
+
       NoContraceptionCompletedState() => throw UnimplementedError(),
-      // TODO: Handle this case.
+
       PillCompletedState() => throw UnimplementedError(),
-      // TODO: Handle this case.
+
       HormonalIudCompletedState() => throw UnimplementedError(),
-      // TODO: Handle this case.
+
       CopperIudCompletedState() => throw UnimplementedError(),
-      // TODO: Handle this case.
+
       CopperIudAndPillCompletedState() => throw UnimplementedError(),
-      // TODO: Handle this case.
+
       HormonalIudAndPillCompletedState() => throw UnimplementedError(),
     };
+  }
+
+  Widget _page(SetupWizardBloc wizard) {
+    return AnimatedSwitcher(
+      duration: const Duration(milliseconds: 350),
+      switchInCurve: Curves.easeOutCubic,
+      switchOutCurve: Curves.easeInCubic,
+      transitionBuilder: (child, animation) {
+        return SlideTransition(
+          position: Tween<Offset>(
+            begin: const Offset(1, 0),
+            end: Offset.zero,
+          ).animate(animation),
+          child: child,
+        );
+      },
+      child: KeyedSubtree(
+        key: ValueKey(wizard.state.runtimeType),
+        child: _pageContent(wizard),
+      ),
+    );
   }
 
   @override
@@ -104,14 +160,19 @@ class SetupPage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _progressBar(wizard),
-              const SizedBox(height: 16),
-              Expanded(child: _pageContent(wizard.state)),
-            ],
+          padding: const EdgeInsets.all(24),
+          child: BlocBuilder<SetupWizardBloc, SetupWizardState>(
+            bloc: _wizard,
+            builder: (context, state) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _progressBar(state),
+                  const SizedBox(height: 32),
+                  Expanded(child: _page(_wizard)),
+                ],
+              );
+            },
           ),
         ),
       ),

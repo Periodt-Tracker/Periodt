@@ -1,5 +1,3 @@
-import 'package:app/app/app_event.dart';
-import 'package:app/app/app_phase.dart';
 import 'package:app/app/theme/base.dart';
 import 'package:app/core/logging/app_logger_initialiser.dart';
 import 'package:app/core/logging/observers/blob_logging_observer.dart';
@@ -18,17 +16,28 @@ Future<void> main() async {
 
   Bloc.observer = AppBlocObserver();
 
-  runAppGuarded(() => runApp(const PeriodtApp()));
+  final settingsCubit = SettingsCubit(repository: MockSettingsRepository())
+    ..load();
+
+  runAppGuarded(
+    () => runApp(
+      PeriodtApp(
+        settingsCubit: settingsCubit,
+      ),
+    ),
+  );
 }
 
 class PeriodtApp extends StatelessWidget {
-  const PeriodtApp({super.key});
+  final SettingsCubit settingsCubit;
+
+  const PeriodtApp({
+    super.key,
+    required this.settingsCubit,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final repository = MockSettingsRepository();
-    final settingsCubit = SettingsCubit(repository: repository);
-
     return MaterialApp(
       title: 'Periodt',
       theme: PeriodtTheme.light,
@@ -44,11 +53,11 @@ class PeriodtApp extends StatelessWidget {
             // todo: it may be worth introducing a sort of "recovery"
             // protocol for corrupted settings
             //
-            SettingsMissing() || SettingsInvalid() => SetupPage(
-              wizard: SetupWizardBloc(settings: settingsCubit),
-            ),
+            SettingsMissing() || SettingsInvalid() => const SetupPage(),
 
-            SettingsValid(:final settings) => const Text('AAA'),
+            SettingsValid(:final settings) => Text(
+              settings.user.name ?? "Unknown User",
+            ),
           };
         },
       ),
