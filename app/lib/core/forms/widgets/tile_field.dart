@@ -8,8 +8,10 @@ class PeriodtTileField<TRaw, TVal, Err> extends StatelessWidget {
     required this.onChanged,
     required this.onTouched,
     required this.errorText,
-    this.crossAxisCount = 2,
     required this.builder,
+    this.crossAxisSpacing = 0,
+    this.mainAxisSpacing = 0,
+    this.crossAxisCount = 2,
     super.key,
   });
 
@@ -23,6 +25,8 @@ class PeriodtTileField<TRaw, TVal, Err> extends StatelessWidget {
   final String? Function(Err error) errorText;
 
   final int crossAxisCount;
+  final double crossAxisSpacing;
+  final double mainAxisSpacing;
 
   final Widget Function(BuildContext context, TRaw value, bool selected)
   builder;
@@ -38,6 +42,8 @@ class PeriodtTileField<TRaw, TVal, Err> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.count(
+      mainAxisSpacing: mainAxisSpacing,
+      crossAxisSpacing: crossAxisSpacing,
       crossAxisCount: crossAxisCount,
       children: items.map((value) {
         final selected = field.value.contains(value);
