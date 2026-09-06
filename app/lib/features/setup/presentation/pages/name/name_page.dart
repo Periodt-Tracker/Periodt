@@ -1,3 +1,4 @@
+import 'package:app/app/theme/base.dart';
 import 'package:app/core/forms/widgets/text_field.dart';
 import 'package:app/features/setup/bloc/setup_wizard_bloc.dart';
 import 'package:app/features/setup/bloc/wizard_event.dart';
@@ -5,18 +6,17 @@ import 'package:app/features/setup/bloc/wizard_state.dart';
 import 'package:app/features/setup/presentation/pages/name/name_field_input.dart';
 import 'package:app/features/setup/presentation/pages/name/name_form_cubit.dart';
 import 'package:app/features/setup/presentation/pages/name/name_form_state.dart';
+import 'package:app/features/setup/presentation/widgets/form_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class NamePage extends StatelessWidget {
-  const NamePage({required this.wizard, super.key});
+  const NamePage(this._wizard, {super.key});
 
-  final SetupWizardBloc wizard;
+  final SetupWizardBloc _wizard;
 
-  void _onSubmit(ContraceptionDetails details) {
-    wizard.add(
-      SetupWizardEvent.contraceptionSubmitted(type: details),
-    );
+  void _onSubmit(NameDetails details) {
+    _wizard.add(SetupWizardEvent.nameSubmitted(name: details));
   }
 
   /// Builds the form widget for the name input page.
@@ -26,23 +26,24 @@ class NamePage extends StatelessWidget {
   /// manage the form state and validation.
   ///
   Widget _form(NameFormCubit cubit, NameFormState state) {
-    return Column(
-      children: [
-        PeriodtTextField(
+    return FormLayout(
+      title: 'What should we call you?',
+      buttonText: 'Next',
+      onSubmit: state.isValid ? cubit.trySubmit : null,
+      child: Expanded(
+        child: PeriodtTextField(
           field: cubit.state.name,
           onChanged: cubit.nameChanged,
           onTouched: cubit.nameTouched,
+          placeholder: 'Enter your name',
+          label: 'Periodt will only ever store this on your phone',
           errorText: (error) => switch (error) {
             NameFieldError.empty => 'Name cannot be empty',
             NameFieldError.tooShort => 'Name is too short',
             NameFieldError.tooLong => 'Name is too long',
           },
         ),
-        ElevatedButton(
-          onPressed: cubit.trySubmit,
-          child: const Text('Next'),
-        ),
-      ],
+      ),
     );
   }
 

@@ -23,6 +23,8 @@ class NameFormState with _$NameFormState {
     );
   }
 
+  bool get isValid => name.isValid;
+
   @override
   final NameFieldInput name;
 
