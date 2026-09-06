@@ -20,7 +20,7 @@
 	--follicular-secondary: #faf5b9;
 	--follicular-light: #fff7e8;
 
-	--ovulation-primary: #b7e28e;
+	--ovulation-primary: #b5df8c;
 	--ovulation-secondary: #d8eec4;
 	--ovulation-light: #f4f8ec;
 
@@ -240,14 +240,14 @@ details[data-callout][open]>summary[data-callout-title]::after {
 	}
 }
 
-[data-callout][data-callout-type="info"] {
+[data-callout][data-callout-type="positives"] {
 	& {
-		@apply border-luteal-primary/60 bg-luteal-light/60;
+		@apply border-ovulation-primary/60 bg-ovulation-light/60;
 	}
 
 	&>[data-callout-title] {
 		& {
-			@apply text-luteal-primary;
+			@apply text-ovulation-primary;
 		}
 
 		&:empty::after {
@@ -256,7 +256,28 @@ details[data-callout][open]>summary[data-callout-title]::after {
 
 		&::before {
 			/* lucide:info */
-			mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXNlYXJjaC1pY29uIGx1Y2lkZS1zZWFyY2giPjxwYXRoIGQ9Im0yMSAyMS00LjM0LTQuMzQiLz48Y2lyY2xlIGN4PSIxMSIgY3k9IjExIiByPSI4Ii8+PC9zdmc+");
+			mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXRodW1icy11cCI+PHBhdGggZD0iTTE1IDUuODggMTQgMTBoNS44M2EyIDIgMCAwIDEgMS45MiAyLjU2bC0yLjMzIDhBMiAyIDAgMCAxIDE3LjUgMjJINGEyIDIgMCAwIDEtMi0ydi04YTIgMiAwIDAgMSAyLTJoMi43NmEyIDIgMCAwIDAgMS43OS0xLjExTDEyIDJhMy4xMyAzLjEzIDAgMCAxIDMgMy44OFoiLz48cGF0aCBkPSJNNyAxMHYxMiIvPjwvc3ZnPg==");
+		}
+	}
+}
+
+[data-callout][data-callout-type="negatives"] {
+	& {
+		@apply border-period-primary/60 bg-period-light/60;
+	}
+
+	&>[data-callout-title] {
+		& {
+			@apply text-period-primary;
+		}
+
+		&:empty::after {
+			content: "Info";
+		}
+
+		&::before {
+			/* lucide:info */
+			mask-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGNsYXNzPSJsdWNpZGUgbHVjaWRlLXRodW1icy1kb3duIj48cGF0aCBkPSJNOSAxOC4xMiAxMCAxNEg0LjE3YTIgMiAwIDAgMS0xLjkyLTIuNTZsMi4zMy04QTIgMiAwIDAgMSA2LjUgMkgyMGEyIDIgMCAwIDEgMiAydjhhMiAyIDAgMCAxLTIgMmgtMi43NmEyIDIgMCAwIDAtMS43OSAxLjExTDEyIDIyYTMuMTMgMy4xMyAwIDAgMS0zLTMuODhaIi8+PHBhdGggZD0iTTE3IDE0VjIiLz48L3N2Zz4=");
 		}
 	}
 }
