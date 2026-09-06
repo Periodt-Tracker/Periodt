@@ -6,8 +6,8 @@ import 'package:app/features/setup/presentation/pages/birthday/birthday_form_sta
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BirthdayFormCubit extends Cubit<BirthdayFormState> {
-  BirthdayFormCubit({required this.onSubmit})
-    : super(BirthdayFormState.initial());
+  BirthdayFormCubit({required DateTime initialBirthday, required this.onSubmit})
+    : super(BirthdayFormState.initial(initialBirthday: initialBirthday));
 
   final void Function(BirthdayDetails) onSubmit;
 
