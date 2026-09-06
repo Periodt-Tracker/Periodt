@@ -13,7 +13,7 @@ class PeriodtTheme {
 
   static const Color background = Color(0xFFFFF8F8);
   static const Color surface = Color(0xFFFFFFFF);
-  static const Color surfacePink = Color(0xFFFFF0F0);
+  static const Color surfacePink = Color(0xFFF4F7FF);
 
   static const Color text = Color(0xFF444444);
   static const Color textSecondary = Color(0xFF777777);
@@ -220,26 +220,6 @@ class PeriodtTheme {
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
           borderSide: BorderSide.none,
-        ),
-
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: BorderSide.none,
-        ),
-
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: primary, width: 1.5),
-        ),
-
-        errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: error),
-        ),
-
-        focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: error, width: 1.5),
         ),
       ),
 
