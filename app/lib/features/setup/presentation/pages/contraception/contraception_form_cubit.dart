@@ -17,6 +17,12 @@ class ContraceptionFormCubit extends Cubit<ContraceptionFormState> {
     emit(state.copyWith(type: newContraception));
   }
 
+  void contraceptionTouched() {
+    final newContraception = ContraceptionFieldInput.dirty(state.type.value);
+
+    emit(state.copyWith(type: newContraception));
+  }
+
   void _handleValidSubmit(ContraceptionType details) {
     final newState = state.copyWith(
       type: ContraceptionFieldInput.dirty(state.type.value),
@@ -36,7 +42,7 @@ class ContraceptionFormCubit extends Cubit<ContraceptionFormState> {
     emit(newState);
   }
 
-  void submit() {
+  void trySubmit() {
     state.type.fold(valid: _handleValidSubmit, invalid: _handleInvalidSubmit);
   }
 }

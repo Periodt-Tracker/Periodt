@@ -19,24 +19,30 @@ class ContraceptionFieldInput
   ValidationResult<ContraceptionType, ContraceptionFieldError> validate(
     Set<Method> value,
   ) {
-    return switch (value) {
-      const {Method.pill} => const Valid(ContraceptionType.pill),
+    if (value.isEmpty) {
+      return const Valid(ContraceptionType.none);
+    }
 
-      const {Method.hormonalIud} => const Valid(ContraceptionType.hormonalIud),
+    if (value.length == 1) {
+      return switch (value.first) {
+        Method.pill => const Valid(ContraceptionType.pill),
 
-      const {Method.copperIud} => const Valid(ContraceptionType.copperIud),
+        Method.hormonalIud => const Valid(ContraceptionType.hormonalIud),
 
-      const {Method.hormonalIud, Method.pill} => const Valid(
-        ContraceptionType.hormonalIudAndPill,
-      ),
+        Method.copperIud => const Valid(ContraceptionType.copperIud),
+      };
+    }
 
-      const {Method.copperIud, Method.pill} => const Valid(
-        ContraceptionType.copperIudAndPill,
-      ),
+    if (value.length == 2) {
+      if (value.contains(Method.pill) && value.contains(Method.hormonalIud)) {
+        return const Valid(ContraceptionType.hormonalIudAndPill);
+      }
 
-      const {} => const Valid(ContraceptionType.none),
+      if (value.contains(Method.pill) && value.contains(Method.copperIud)) {
+        return const Valid(ContraceptionType.copperIudAndPill);
+      }
+    }
 
-      _ => const Invalid(ContraceptionFieldError.invalidCombination),
-    };
+    return const Invalid(ContraceptionFieldError.invalidCombination);
   }
 }
