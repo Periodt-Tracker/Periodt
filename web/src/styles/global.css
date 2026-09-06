@@ -251,7 +251,7 @@ details[data-callout][open]>summary[data-callout-title]::after {
 		}
 
 		&:empty::after {
-			content: "Infp";
+			content: "Info";
 		}
 
 		&::before {
