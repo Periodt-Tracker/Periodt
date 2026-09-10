@@ -4,9 +4,9 @@ import 'package:app/core/forms/engine/validation_result.dart';
 enum NameFieldError { empty, tooShort, tooLong }
 
 class NameFieldInput extends PeriodtInput<String, String, NameFieldError> {
-  const NameFieldInput.pure() : super.pure('');
+  const NameFieldInput.pure([super.value = '']) : super.pure();
 
-  const NameFieldInput.dirty(String value) : super.dirty(value);
+  const NameFieldInput.dirty(super.value) : super.dirty();
 
   @override
   ValidationResult<String, NameFieldError> validate(String value) {

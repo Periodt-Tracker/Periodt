@@ -1,4 +1,3 @@
-import 'package:app/app/theme/base.dart';
 import 'package:app/core/forms/widgets/text_field.dart';
 import 'package:app/features/setup/bloc/setup_wizard_bloc.dart';
 import 'package:app/features/setup/bloc/wizard_event.dart';
@@ -7,6 +6,7 @@ import 'package:app/features/setup/presentation/pages/name/name_field_input.dart
 import 'package:app/features/setup/presentation/pages/name/name_form_cubit.dart';
 import 'package:app/features/setup/presentation/pages/name/name_form_state.dart';
 import 'package:app/features/setup/presentation/widgets/form_layout.dart';
+import 'package:app/gen/assets.gen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -51,9 +51,15 @@ class NamePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final cubit = NameFormCubit(onSubmit: _onSubmit);
 
-    return BlocBuilder<NameFormCubit, NameFormState>(
-      bloc: cubit,
-      builder: (context, state) => _form(cubit, state),
+    return Column(
+      children: [
+        Expanded(
+          child: BlocBuilder<NameFormCubit, NameFormState>(
+            bloc: cubit,
+            builder: (context, state) => _form(cubit, state),
+          ),
+        ),
+      ],
     );
   }
 }

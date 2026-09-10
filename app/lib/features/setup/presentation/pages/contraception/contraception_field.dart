@@ -4,7 +4,7 @@ import 'package:app/features/setup/domain/contraception_type.dart';
 
 enum ContraceptionFieldError { invalidCombination }
 
-enum Method { pill, hormonalIud, copperIud }
+enum Method { pill, hormonalIud, copperIud, none }
 
 typedef Methods = Set<Method>;
 
@@ -30,6 +30,8 @@ class ContraceptionFieldInput
         Method.hormonalIud => const Valid(ContraceptionType.hormonalIud),
 
         Method.copperIud => const Valid(ContraceptionType.copperIud),
+
+        Method.none => const Valid(ContraceptionType.none),
       };
     }
 

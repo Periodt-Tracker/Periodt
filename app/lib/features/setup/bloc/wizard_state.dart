@@ -46,7 +46,9 @@ class BirthdayDetails {
 class ContraceptionDetails {
   final ContraceptionType contraceptionType;
 
-  const ContraceptionDetails({required this.contraceptionType});
+  const ContraceptionDetails({
+    required this.contraceptionType,
+  });
 }
 
 @immutable
@@ -102,6 +104,7 @@ class NoContraceptionPeriodPageState extends SetupWizardState {
   });
 
   @override
+  // ignore: avoid_field_initializers_in_const_classes
   final double progress = 4 / noContraceptionSteps;
 }
 

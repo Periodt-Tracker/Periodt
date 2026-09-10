@@ -7,6 +7,7 @@ import 'package:app/features/setup/domain/contraception_type.dart';
 import 'package:app/features/setup/presentation/pages/contraception/contraception_field.dart';
 import 'package:app/features/setup/presentation/pages/contraception/contraception_form_cubit.dart';
 import 'package:app/features/setup/presentation/pages/contraception/contraception_form_state.dart';
+import 'package:app/features/setup/presentation/pages/contraception/contraception_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -44,8 +45,13 @@ class ContraceptionPage extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         color: PeriodtTheme.surfacePink,
       ),
-      child: Center(
-        child: Text(method.name),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        spacing: 8,
+        children: [
+          ContraceptionIcon(method: method, size: 92),
+          Text(method.name),
+        ],
       ),
     );
   }
