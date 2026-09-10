@@ -4,7 +4,7 @@ part 'settings.freezed.dart';
 part 'settings.g.dart';
 
 @JsonEnum()
-enum SecurityMethod { none, pin, device }
+enum SecurityMethod { pin, device }
 
 @JsonEnum()
 enum RequestedSetting { ask, active, disabled }
@@ -12,7 +12,7 @@ enum RequestedSetting { ask, active, disabled }
 @freezed
 abstract class SecuritySettings with _$SecuritySettings {
   const factory SecuritySettings({
-    @Default(SecurityMethod.none) SecurityMethod method,
+    @Default(null) SecurityMethod? method,
     @Default(false) bool privacyScreen,
     @Default(false) bool lockOnResume,
   }) = _SecuritySettings;

@@ -6,11 +6,11 @@ part 'security_event.freezed.dart';
 sealed class SecurityEvent with _$SecurityEvent {
   const SecurityEvent._();
 
-  const factory SecurityEvent.pinEntered(String pin) = PinEnteredEvent;
-
-  const factory SecurityEvent.pinSet(String pin) = PinSetEvent;
-
-  const factory SecurityEvent.deviceEntered() = DeviceEnteredEvent;
-
   const factory SecurityEvent.settingsUpdated() = SettingsUpdatedEvent;
+
+  const factory SecurityEvent.locked() = LockedEvent;
+
+  const factory SecurityEvent.appResumed() = AppResumedEvent;
+
+  const factory SecurityEvent.unlocked() = UnlockedEvent;
 }

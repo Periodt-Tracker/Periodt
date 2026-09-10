@@ -6,6 +6,8 @@ import 'package:app/core/settings/settings_repository.dart';
 import 'package:app/core/settings/settings_state.dart';
 import 'package:app/features/setup/bloc/setup_wizard_bloc.dart';
 import 'package:app/features/setup/presentation/pages/setup_page.dart';
+import 'package:app/features/setup/presentation/pages/setup_page.dart';
+import 'package:app/features/setup/presentation/pages/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,7 +18,7 @@ Future<void> main() async {
 
   Bloc.observer = AppBlocObserver();
 
-  final settingsCubit = SettingsCubit(repository: MockSettingsRepository())
+  final settingsCubit = SettingsCubit(repository: FailingSettingsRepository())
     ..load();
 
   runAppGuarded(
@@ -53,7 +55,7 @@ class PeriodtApp extends StatelessWidget {
             // todo: it may be worth introducing a sort of "recovery"
             // protocol for corrupted settings
             //
-            SettingsMissing() || SettingsInvalid() => const SetupPage(),
+            SettingsMissing() || SettingsInvalid() => const WelcomePage(),
 
             SettingsValid(:final settings) => Text(
               settings.user.name ?? "Unknown User",
