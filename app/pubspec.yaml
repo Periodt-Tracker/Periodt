@@ -48,6 +48,9 @@ dependencies:
   clock: ^1.1.3
   calendar_date_picker2: ^3.0.0
   font_awesome_flutter: ^11.0.0
+  lottie: ^3.5.1
+  flutter_secure_storage: ^11.1.0
+  cryptography: ^2.9.0
 
 dev_dependencies:
   flutter_test:
@@ -60,6 +63,20 @@ dev_dependencies:
   json_serializable: ^6.11.4
   bloc_test: ^10.0.0
   very_good_analysis: ^10.3.0
+  flutter_gen_runner: ^5.15.0
 
 flutter:
   uses-material-design: true
+
+  assets:
+    - assets/images/icons/contraception/
+    - assets/images/icons/common/
+    - assets/images/blobs/
+    - assets/animations/blobs/
+
+flutter_gen:
+  output: lib/gen/
+
+  integrations:
+    image: true
+    lottie: true
