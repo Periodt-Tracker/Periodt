@@ -7,9 +7,9 @@ import FormattedDate from "../components/formatted-date.astro";
 import Navbar from "@/components/navbar/navbar.astro";
 import Container from "@/components/container/container.astro";
 
-type Props = CollectionEntry<"blog">["data"];
+type Props = CollectionEntry<"blog">["data"] & { readingTime: String };
 
-const { title, description, date, updated_date, image } = Astro.props;
+const { title, description, date, updated_date, image, readingTime } = Astro.props;
 ---
 
 <html lang="en">
@@ -29,10 +29,12 @@ const { title, description, date, updated_date, image } = Astro.props;
 								<div class="last-updated-on">
 									Last updated on{" "}
 									<FormattedDate date={updated_date} />
+			
 								</div>
 							)
 						}
-						{date && <FormattedDate date={date} />}
+						{date && <FormattedDate date={date} />
+					}
 					</div>
 
 					<h1>{title}</h1>
