@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:periodt/core/theme/base/rounding.dart';
@@ -67,9 +68,7 @@ final theme = ThemeData(
 
   pageTransitionsTheme: const PageTransitionsTheme(
     builders: {
-      // Force Android to use the Cupertino (slide) transition
       TargetPlatform.android: CupertinoPageTransitionsBuilder(),
-      // Keep iOS using its native Cupertino transition
       TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
     },
   ),
