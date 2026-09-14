@@ -1,13 +1,17 @@
-import 'package:app/core/logging/app_logger.dart';
+import 'package:app/core/logging/bloc/logging_cubit.dart';
+import 'package:app/core/logging/logger.dart';
 import 'package:app/core/settings/settings.dart';
 import 'package:app/core/settings/settings_repository.dart';
 import 'package:app/core/settings/settings_state.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SettingsCubit extends Cubit<SettingsState> {
-  SettingsCubit({required SettingsRepository repository})
-    : _repository = repository,
-      super(const SettingsState.loading());
+class SettingsCubit extends LoggingCubit<SettingsState> {
+  SettingsCubit({
+    required SettingsRepository repository,
+    required super.logger,
+  }) : _repository = repository,
+       super(const SettingsState.loading(), name: name);
+
+  static const name = 'SettingsCubit';
 
   final SettingsRepository _repository;
 
@@ -28,9 +32,9 @@ class SettingsCubit extends Cubit<SettingsState> {
       case SettingsLoading():
       case SettingsMissing():
       case SettingsInvalid():
-        AppLogger.instance.info(
-          'SettingsCubit',
-          'Cannot update settings while loading or in an invalid state',
+        logger.info(
+          'Attempted to update settings while in an invalid state',
+          fields: {'state': state},
         );
 
       case SettingsValid(:final settings):

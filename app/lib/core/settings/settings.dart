@@ -12,7 +12,7 @@ enum RequestedSetting { ask, active, disabled }
 @freezed
 abstract class SecuritySettings with _$SecuritySettings {
   const factory SecuritySettings({
-    @Default(null) SecurityMethod? method,
+    @Default(SecurityMethod.pin) SecurityMethod? method,
     @Default(false) bool privacyScreen,
     @Default(false) bool lockOnResume,
   }) = _SecuritySettings;

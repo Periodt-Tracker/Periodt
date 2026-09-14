@@ -1,12 +1,10 @@
 import 'package:app/app/theme/base.dart';
-import 'package:app/core/logging/app_logger_initialiser.dart';
-import 'package:app/core/logging/observers/blob_logging_observer.dart';
+import 'package:app/core/logging/logger.dart';
+import 'package:app/core/logging/sinks/console_sink.dart';
 import 'package:app/core/settings/settings_cubit.dart';
 import 'package:app/core/settings/settings_repository.dart';
 import 'package:app/core/settings/settings_state.dart';
-import 'package:app/features/setup/bloc/setup_wizard_bloc.dart';
-import 'package:app/features/setup/presentation/pages/setup_page.dart';
-import 'package:app/features/setup/presentation/pages/setup_page.dart';
+import 'package:app/features/security/presentation/pages/security_page.dart';
 import 'package:app/features/setup/presentation/pages/welcome_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,29 +12,33 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  await AppLoggerInitializer.init();
+  final logger = PeriodtLogger.root(sinks: [ConsoleSink()]);
 
-  Bloc.observer = AppBlocObserver();
+  FlutterError.onError = (details) {
+    logger.error(
+      'Flutter error',
+      error: details.exception,
+      stackTrace: details.stack ?? StackTrace.empty,
+    );
+  };
 
-  final settingsCubit = SettingsCubit(repository: FailingSettingsRepository())
-    ..load();
+  final settingsCubit = SettingsCubit(
+    repository: MockSettingsRepository(),
+    logger: logger,
+  )..load();
 
-  runAppGuarded(
-    () => runApp(
-      PeriodtApp(
-        settingsCubit: settingsCubit,
-      ),
-    ),
-  );
+  runApp(PeriodtApp(settingsCubit: settingsCubit, logger: logger));
 }
 
 class PeriodtApp extends StatelessWidget {
-  final SettingsCubit settingsCubit;
-
   const PeriodtApp({
-    super.key,
     required this.settingsCubit,
+    required this.logger,
+    super.key,
   });
+
+  final PeriodtLogger logger;
+  final SettingsCubit settingsCubit;
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +49,6 @@ class PeriodtApp extends StatelessWidget {
         bloc: settingsCubit,
         builder: (context, state) {
           return switch (state) {
-            // TODO: We should probably have a proper splash screen here
             SettingsLoading() => const Center(
               child: CircularProgressIndicator(),
             ),
@@ -57,8 +58,10 @@ class PeriodtApp extends StatelessWidget {
             //
             SettingsMissing() || SettingsInvalid() => const WelcomePage(),
 
-            SettingsValid(:final settings) => Text(
-              settings.user.name ?? "Unknown User",
+            SettingsValid(:final settings) => SecurityPage(
+              settings: settings,
+              logger: logger,
+              child: const Text('Welcome to the app'),
             ),
           };
         },

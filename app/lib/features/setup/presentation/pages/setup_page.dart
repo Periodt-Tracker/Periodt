@@ -71,7 +71,7 @@ class _SetupPageState extends State<SetupPage> {
             child: Stack(
               children: [
                 Container(
-                  color: PeriodtTheme.surfacePink,
+                  color: PeriodtTheme.surface,
                 ),
                 FractionallySizedBox(
                   widthFactor: state.progress,

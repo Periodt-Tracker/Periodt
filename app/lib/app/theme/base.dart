@@ -8,12 +8,12 @@ class PeriodtTheme {
   // Colors
   // ─────────────────────────────────────────────
 
+  static const Color primaryLight = Color(0xFFFF9E9E);
   static const Color primary = Color(0xFFFF8888);
-  static const Color primaryDark = Color(0xFFFF7070);
+  static const Color primaryDark = Color(0xFFEE7474);
 
-  static const Color background = Color(0xFFFFF8F8);
-  static const Color surface = Color(0xFFFFFFFF);
-  static const Color surfacePink = Color(0xFFF4F7FF);
+  static const Color background = Color(0xFFFFFFFF);
+  static const Color surface = Color(0xFFF4F7FF);
 
   static const Color text = Color(0xFF444444);
   static const Color textSecondary = Color(0xFF777777);
@@ -47,7 +47,7 @@ class PeriodtTheme {
     surface: surface,
     onSurface: text,
 
-    surfaceContainerHighest: surfacePink,
+    surfaceContainerHighest: surface,
 
     error: error,
     onError: Colors.white,
@@ -71,7 +71,7 @@ class PeriodtTheme {
     );
 
     return base.copyWith(
-      scaffoldBackgroundColor: surface,
+      scaffoldBackgroundColor: background,
 
       // ─────────────────────────────────────────
       // Typography
@@ -206,7 +206,7 @@ class PeriodtTheme {
       // ─────────────────────────────────────────
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: surfacePink,
+        fillColor: surface,
 
         contentPadding: const EdgeInsets.symmetric(
           horizontal: 18,
@@ -248,7 +248,7 @@ class PeriodtTheme {
           if (states.contains(WidgetState.selected)) {
             return primary;
           }
-          return surfacePink;
+          return surface;
         }),
 
         checkColor: WidgetStateProperty.all(Colors.white),

@@ -43,7 +43,7 @@ class ContraceptionPage extends StatelessWidget {
           width: 6,
         ),
         borderRadius: BorderRadius.circular(16),
-        color: PeriodtTheme.surfacePink,
+        color: PeriodtTheme.surface,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
