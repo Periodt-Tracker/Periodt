@@ -13,4 +13,6 @@ sealed class SecurityEvent with _$SecurityEvent {
   const factory SecurityEvent.appResumed() = AppResumedEvent;
 
   const factory SecurityEvent.unlocked() = UnlockedEvent;
+
+  const factory SecurityEvent.deviceUnlocked() = DeviceUnlockedEvent;
 }

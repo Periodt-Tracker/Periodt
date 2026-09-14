@@ -51,6 +51,9 @@ dependencies:
   lottie: ^3.5.1
   flutter_secure_storage: ^11.1.0
   cryptography: ^2.9.0
+  bcrypt: ^1.2.0
+  local_auth: ^3.0.2
+  pinput: ^6.0.2
 
 dev_dependencies:
   flutter_test:

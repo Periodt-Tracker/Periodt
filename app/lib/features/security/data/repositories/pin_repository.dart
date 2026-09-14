@@ -1,157 +1,107 @@
-import 'dart:convert';
-
 import 'package:app/core/utilities/result.dart';
 import 'package:app/features/security/domain/pin.dart';
-import 'package:cryptography/cryptography.dart';
-import 'package:cryptography/helpers.dart';
+import 'package:bcrypt/bcrypt.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
+enum PinReadError {
+  storageError,
+}
+
+enum PinSetError {
+  storageError,
+}
+
 enum PinValidationError {
-  invalidPin,
+  missingPin,
+  storageError,
 }
 
 const _pinStorageKey = 'periodt-pin';
 
-class PinRepository {
-  PinRepository({
-    required FlutterSecureStorage storage,
-  }) : _storage = storage;
+abstract interface class PinRepository {
+  /// Loads the PIN state from secure storage.
+  ///
+  /// `Ok(true)`  -> PIN is configured.
+  /// `Ok(false)` -> PIN is not configured.
+  Future<Result<bool, PinReadError>> isPinSetup();
 
-  final FlutterSecureStorage _storage;
+  Future<Result<void, PinSetError>> setPin(PinType pin);
 
-  String? _cachedPinHash;
-  List<int>? _cachedPinSalt;
-
-  final _algorithm = Argon2id(
-    parallelism: 1,
-    memory: 19 * 1024, // 19 MiB
-    iterations: 2,
-    hashLength: 32,
-  );
-
-  Future<bool> isPinConfigured() async {
-    final credentials = await _loadCredentials();
-
-    return credentials != null;
-  }
-
-  Future<void> setPin(PinType pin) async {
-    final salt = Cryptography.instance.random.nextBytes(32);
-
-    final hash = await _hashPin(
-      pin: pin,
-      salt: salt,
-    );
-
-    final credentials = jsonEncode({
-      'version': 1,
-      'salt': base64UrlEncode(salt),
-      'hash': base64UrlEncode(hash),
-    });
-
-    await _storage.write(
-      key: _pinStorageKey,
-      value: credentials,
-    );
-
-    _cachedPinHash = base64UrlEncode(hash);
-    _cachedPinSalt = salt;
-  }
-
-  Future<Result<void, PinValidationError>> verifyPin(
-    PinType pin,
-  ) async {
-    final credentials = await _loadCredentials();
-
-    if (credentials == null) {
-      return const Err(PinValidationError.invalidPin);
-    }
-
-    final hash = await _hashPin(
-      pin: pin,
-      salt: credentials.salt,
-    );
-
-    final expectedHash = base64Url.decode(credentials.hash);
-
-    final isValid = constantTimeBytesEquality.equals(
-      hash,
-      expectedHash,
-    );
-
-    if (!isValid) {
-      return const Err(PinValidationError.invalidPin);
-    }
-
-    return const Ok(null);
-  }
-
-  Future<void> clearPin() async {
-    await _storage.delete(key: _pinStorageKey);
-
-    _cachedPinHash = null;
-    _cachedPinSalt = null;
-  }
-
-  Future<List<int>> _hashPin({
-    required PinType pin,
-    required List<int> salt,
-  }) async {
-    final secretKey = await _algorithm.deriveKeyFromPassword(
-      password: pin.value,
-      nonce: salt,
-    );
-
-    return secretKey.extractBytes();
-  }
-
-  Future<_PinCredentials?> _loadCredentials() async {
-    if (_cachedPinHash != null && _cachedPinSalt != null) {
-      return _PinCredentials(
-        hash: _cachedPinHash!,
-        salt: _cachedPinSalt!,
-      );
-    }
-
-    final encoded = await _storage.read(
-      key: _pinStorageKey,
-    );
-
-    if (encoded == null) {
-      return null;
-    }
-
-    final decoded = jsonDecode(encoded);
-
-    if (decoded is! Map<String, dynamic>) {
-      return null;
-    }
-
-    final saltString = decoded['salt'];
-    final hashString = decoded['hash'];
-
-    if (saltString is! String || hashString is! String) {
-      return null;
-    }
-
-    final salt = base64Url.decode(saltString);
-
-    _cachedPinHash = hashString;
-    _cachedPinSalt = salt;
-
-    return _PinCredentials(
-      hash: hashString,
-      salt: salt,
-    );
-  }
+  Future<Result<bool, PinValidationError>> verifyPin(PinType pin);
 }
 
-class _PinCredentials {
-  const _PinCredentials({
-    required this.hash,
-    required this.salt,
-  });
+class SecureStoragePinRepository implements PinRepository {
+  SecureStoragePinRepository({
+    required FlutterSecureStorage secureStorage,
+  }) : _secureStorage = secureStorage;
 
-  final String hash;
-  final List<int> salt;
+  final FlutterSecureStorage _secureStorage;
+
+  String? _pinHash;
+  bool _hasLoaded = false;
+
+  @override
+  Future<Result<bool, PinReadError>> isPinSetup() async {
+    if (_hasLoaded) {
+      return Ok(_pinHash != null);
+    }
+
+    try {
+      _pinHash = await _secureStorage.read(
+        key: _pinStorageKey,
+      );
+
+      _hasLoaded = true;
+
+      return Ok(_pinHash != null);
+    } on PlatformException {
+      return const Err(PinReadError.storageError);
+    }
+  }
+
+  @override
+  Future<Result<void, PinSetError>> setPin(PinType pin) async {
+    final hash = BCrypt.hashpw(
+      pin.value,
+      BCrypt.gensalt(),
+    );
+
+    try {
+      await _secureStorage.write(
+        key: _pinStorageKey,
+        value: hash,
+      );
+
+      _pinHash = hash;
+      _hasLoaded = true;
+
+      return const Ok(null);
+    } on PlatformException {
+      return const Err(PinSetError.storageError);
+    }
+  }
+
+  @override
+  Future<Result<bool, PinValidationError>> verifyPin(
+    PinType pin,
+  ) async {
+    if (!_hasLoaded) {
+      final setupResult = await isPinSetup();
+
+      if (setupResult case Err()) {
+        return const Err(PinValidationError.storageError);
+      }
+    }
+
+    final hash = _pinHash;
+
+    if (hash == null) {
+      return const Err(PinValidationError.missingPin);
+    }
+
+    return Ok(
+      BCrypt.checkpw(pin.value, hash),
+    );
+  }
 }
