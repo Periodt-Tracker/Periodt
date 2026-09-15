@@ -8,6 +8,7 @@ import 'package:app/features/setup/presentation/pages/birthday/birthday_field.da
 import 'package:app/features/setup/presentation/pages/birthday/birthday_form_cubit.dart';
 import 'package:app/features/setup/presentation/pages/birthday/birthday_form_state.dart';
 import 'package:app/features/setup/presentation/widgets/form_layout.dart';
+import 'package:app/i18n/strings.g.dart';
 import 'package:clock/clock.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -27,8 +28,8 @@ class BirthdayPage extends StatelessWidget {
     final minimumDate = clock.yearsAgo(120);
 
     return FormLayout(
-      title: 'What is your birthday?',
-      buttonText: 'Next',
+      title: t.setup.birthday.title,
+      buttonText: t.setup.birthday.action,
       onSubmit: state.birthday.isValid ? cubit.submit : null,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -51,17 +52,16 @@ class BirthdayPage extends StatelessWidget {
                 minimumDate: minimumDate,
                 errorText: (error) => switch (error) {
                   BirthdayFieldError.inFuture =>
-                    'Birthday cannot be in the future',
-                  BirthdayFieldError.tooOld =>
-                    'fucking world record holder, you are too old',
-                  BirthdayFieldError.required => 'Birthday is required',
+                    t.setup.birthday.error.inFuture,
+                  BirthdayFieldError.tooOld => t.setup.birthday.error.tooOld,
+                  BirthdayFieldError.required => t.setup.birthday.error.empty,
                 },
               ),
             ),
           ),
           const SizedBox(height: 16),
           Text(
-            'This helps Periodt. work out your cycle and fertility window. The information will never leave your phone',
+            t.setup.birthday.description,
             style: PeriodtTheme.light.textTheme.bodyMedium,
           ),
         ],

@@ -8,9 +8,21 @@ class PeriodtTheme {
   // Colors
   // ─────────────────────────────────────────────
 
-  static const Color primaryLight = Color(0xFFFF9E9E);
-  static const Color primary = Color(0xFFFF8888);
-  static const Color primaryDark = Color(0xFFEE7474);
+  static const Color periodPrimaryLight = Color(0xFFFF9E9E);
+  static const Color periodPrimary = Color(0xFFFF8888);
+  static const Color periodPrimaryDark = Color(0xFFEE7474);
+
+  static const Color follicularPrimaryLight = Color(0xFF9EFF9E);
+  static const Color follicularPrimary = Color(0xFF88FF88);
+  static const Color follicularPrimaryDark = Color(0xFF74EE74);
+
+  static const Color ovulationPrimaryLight = Color(0xFF9E9EFF);
+  static const Color ovulationPrimary = Color(0xFF8888FF);
+  static const Color ovulationPrimaryDark = Color(0xFF7474EE);
+
+  static const Color lutealPrimaryLight = Color(0xFFFF9EFF);
+  static const Color lutealPrimary = Color(0xFFFF88FF);
+  static const Color lutealPrimaryDark = Color(0xFFEE74EE);
 
   static const Color background = Color(0xFFFFFFFF);
   static const Color surface = Color(0xFFF4F7FF);
@@ -29,7 +41,7 @@ class PeriodtTheme {
   static const ColorScheme colorScheme = ColorScheme(
     brightness: Brightness.light,
 
-    primary: primary,
+    primary: periodPrimary,
     onPrimary: Colors.white,
 
     primaryContainer: Color(0xFFFFDADA),
@@ -57,6 +69,22 @@ class PeriodtTheme {
 
     shadow: Colors.black12,
     scrim: Colors.black54,
+  );
+
+  static final ColorScheme periodColorScheme = colorScheme.copyWith(
+    primary: periodPrimary,
+  );
+
+  static final ColorScheme follicularColorScheme = colorScheme.copyWith(
+    primary: follicularPrimary,
+  );
+
+  static final ColorScheme ovulationColorScheme = colorScheme.copyWith(
+    primary: ovulationPrimary,
+  );
+
+  static final ColorScheme lutealColorScheme = colorScheme.copyWith(
+    primary: lutealPrimary,
   );
 
   // ─────────────────────────────────────────────
@@ -150,7 +178,7 @@ class PeriodtTheme {
       // ─────────────────────────────────────────
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
-          backgroundColor: primary,
+          backgroundColor: periodPrimary,
           foregroundColor: Colors.white,
           elevation: 4,
           shadowColor: Colors.black26,
@@ -173,7 +201,7 @@ class PeriodtTheme {
       // ─────────────────────────────────────────
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
-          backgroundColor: primary,
+          backgroundColor: periodPrimary,
           foregroundColor: Colors.white,
           minimumSize: const Size(double.infinity, 54),
 
@@ -193,7 +221,7 @@ class PeriodtTheme {
       // ─────────────────────────────────────────
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
-          foregroundColor: primaryDark,
+          foregroundColor: periodPrimaryDark,
           textStyle: GoogleFonts.outfit(
             fontSize: 14,
             fontWeight: FontWeight.w600,
@@ -246,7 +274,7 @@ class PeriodtTheme {
 
         fillColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
-            return primary;
+            return periodPrimary;
           }
           return surface;
         }),
@@ -260,7 +288,7 @@ class PeriodtTheme {
       radioTheme: RadioThemeData(
         fillColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
-            return primary;
+            return periodPrimary;
           }
           return textSecondary;
         }),
@@ -279,7 +307,7 @@ class PeriodtTheme {
 
         trackColor: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
-            return primary;
+            return periodPrimary;
           }
           return const Color(0xFFE8DCDC);
         }),
@@ -291,7 +319,7 @@ class PeriodtTheme {
       // Progress Indicators
       // ─────────────────────────────────────────
       progressIndicatorTheme: const ProgressIndicatorThemeData(
-        color: primary,
+        color: periodPrimary,
         linearTrackColor: Color(0xFFFFE8E8),
         linearMinHeight: 12,
       ),
@@ -308,7 +336,7 @@ class PeriodtTheme {
       // Floating Action Button
       // ─────────────────────────────────────────
       floatingActionButtonTheme: const FloatingActionButtonThemeData(
-        backgroundColor: primary,
+        backgroundColor: periodPrimary,
         foregroundColor: Colors.white,
         elevation: 3,
       ),
@@ -328,7 +356,7 @@ class PeriodtTheme {
 
         iconTheme: WidgetStateProperty.resolveWith((states) {
           if (states.contains(WidgetState.selected)) {
-            return const IconThemeData(color: primaryDark);
+            return const IconThemeData(color: periodPrimaryDark);
           }
 
           return const IconThemeData(color: textSecondary);

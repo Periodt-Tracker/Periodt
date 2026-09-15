@@ -61,7 +61,7 @@ class _SetupPageState extends State<SetupPage> {
           style: GoogleFonts.outfit(
             fontSize: 24,
             fontWeight: FontWeight.bold,
-            color: PeriodtTheme.primary,
+            color: PeriodtTheme.periodPrimary,
           ),
         ),
         ClipRRect(
@@ -77,7 +77,7 @@ class _SetupPageState extends State<SetupPage> {
                   widthFactor: state.progress,
                   child: Container(
                     decoration: BoxDecoration(
-                      color: PeriodtTheme.primary,
+                      color: PeriodtTheme.periodPrimary,
                       borderRadius: BorderRadius.circular(999),
                     ),
                   ),

@@ -1,0 +1,45 @@
+{
+    "name": "Periodt.",
+    "setup": {
+        "welcome": {
+            "title": "Welcome to Periodt!",
+            "description": "The private period tracking app built for you.",
+            "action": "Get Started"
+        },
+        "name": {
+            "title": "What should we call you?",
+            "placeholder": "Enter your name",
+            "description": "Periodt will only ever store this on your phone, you can change it any time.",
+            "action": "Continue",
+            "error": {
+                "empty": "Name cannot be empty",
+                "tooShort": "Name is too short",
+                "tooLong": "Name is too long"
+            }
+        },
+        "birthday": {
+            "title": "When where you born?",
+            "description": "This helps periodt learn about your cycle and give you useful insights.",
+            "action": "Continue",
+            "error": {
+                "inFuture": "Birthday cannot be in the future",
+                "tooOld": "Birthday cannot be more than 120 years ago",
+                "empty": "Birthay is required"
+            }
+        },
+        "contraception": {
+            "title": "Do you use any of these?",
+            "description": "Select all that apply",
+            "action": "Continue",
+            "error": {
+                "invalidCombination": "Invalid combination of contraception methods"
+            },
+            "methods": {
+                "none": "None",
+                "pill": "Pill",
+                "hormonalIud": "Hormonal IUD",
+                "copperIud": "Copper IUD"
+            }
+        }
+    }
+}

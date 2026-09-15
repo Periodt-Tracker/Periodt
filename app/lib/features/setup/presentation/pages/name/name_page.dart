@@ -6,7 +6,7 @@ import 'package:app/features/setup/presentation/pages/name/name_field_input.dart
 import 'package:app/features/setup/presentation/pages/name/name_form_cubit.dart';
 import 'package:app/features/setup/presentation/pages/name/name_form_state.dart';
 import 'package:app/features/setup/presentation/widgets/form_layout.dart';
-import 'package:app/gen/assets.gen.dart';
+import 'package:app/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -27,20 +27,20 @@ class NamePage extends StatelessWidget {
   ///
   Widget _form(NameFormCubit cubit, NameFormState state) {
     return FormLayout(
-      title: 'What should we call you?',
-      buttonText: 'Next',
+      title: t.setup.name.title,
+      buttonText: t.setup.name.action,
       onSubmit: state.isValid ? cubit.trySubmit : null,
       child: Expanded(
         child: PeriodtTextField(
           field: cubit.state.name,
           onChanged: cubit.nameChanged,
           onTouched: cubit.nameTouched,
-          placeholder: 'Enter your name',
-          label: 'Periodt will only ever store this on your phone',
+          placeholder: t.setup.name.placeholder,
+          label: t.setup.name.description,
           errorText: (error) => switch (error) {
-            NameFieldError.empty => 'Name cannot be empty',
-            NameFieldError.tooShort => 'Name is too short',
-            NameFieldError.tooLong => 'Name is too long',
+            NameFieldError.empty => t.setup.name.error.empty,
+            NameFieldError.tooShort => t.setup.name.error.tooShort,
+            NameFieldError.tooLong => t.setup.name.error.tooLong,
           },
         ),
       ),

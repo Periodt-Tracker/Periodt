@@ -1,6 +1,7 @@
 import 'package:app/app/theme/base.dart';
 import 'package:app/features/setup/presentation/pages/setup_page.dart';
 import 'package:app/gen/assets.gen.dart';
+import 'package:app/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -25,7 +26,7 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: PeriodtTheme.primary,
+      backgroundColor: PeriodtTheme.periodPrimary,
       body: SafeArea(
         child: Stack(
           clipBehavior: Clip.none,
@@ -81,7 +82,7 @@ class WelcomePage extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Welcome to Periodt!',
+                    t.setup.welcome.title,
                     style: GoogleFonts.outfit(
                       fontSize: 36,
                       fontWeight: FontWeight.bold,
@@ -90,7 +91,7 @@ class WelcomePage extends StatelessWidget {
                     textAlign: TextAlign.left,
                   ),
                   Text(
-                    'The private period tracking app built for you.',
+                    t.setup.welcome.description,
                     style: GoogleFonts.outfit(
                       fontSize: 22,
                       color: Colors.white,
@@ -102,13 +103,13 @@ class WelcomePage extends StatelessWidget {
                     onPressed: () => _openSetupForm(context),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.white,
-                      foregroundColor: PeriodtTheme.primary,
+                      foregroundColor: PeriodtTheme.periodPrimary,
                       padding: const EdgeInsets.symmetric(
                         horizontal: 32,
                         vertical: 16,
                       ),
                     ),
-                    child: const Text('Get Started'),
+                    child: Text(t.setup.welcome.action),
                   ),
                 ],
               ),

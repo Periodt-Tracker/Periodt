@@ -6,28 +6,28 @@ import 'package:app/core/settings/settings_repository.dart';
 import 'package:app/core/settings/settings_state.dart';
 import 'package:app/features/security/presentation/pages/security_page.dart';
 import 'package:app/features/setup/presentation/pages/welcome_page.dart';
+import 'package:app/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   final logger = PeriodtLogger.root(sinks: [ConsoleSink()]);
 
-  FlutterError.onError = (details) {
-    logger.error(
-      'Flutter error',
-      error: details.exception,
-      stackTrace: details.stack ?? StackTrace.empty,
-    );
-  };
+  await LocaleSettings.useDeviceLocale();
 
   final settingsCubit = SettingsCubit(
     repository: MockSettingsRepository(),
     logger: logger,
   )..load();
 
-  runApp(PeriodtApp(settingsCubit: settingsCubit, logger: logger));
+  runApp(
+    TranslationProvider(
+      child: PeriodtApp(settingsCubit: settingsCubit, logger: logger),
+    ),
+  );
 }
 
 class PeriodtApp extends StatelessWidget {
@@ -43,7 +43,10 @@ class PeriodtApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Periodt',
+      title: t.name,
+      locale: TranslationProvider.of(context).flutterLocale,
+      supportedLocales: AppLocaleUtils.supportedLocales,
+      localizationsDelegates: GlobalMaterialLocalizations.delegates,
       theme: PeriodtTheme.light,
       home: BlocBuilder<SettingsCubit, SettingsState>(
         bloc: settingsCubit,

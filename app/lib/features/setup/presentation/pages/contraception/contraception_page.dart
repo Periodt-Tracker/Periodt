@@ -8,6 +8,8 @@ import 'package:app/features/setup/presentation/pages/contraception/contraceptio
 import 'package:app/features/setup/presentation/pages/contraception/contraception_form_cubit.dart';
 import 'package:app/features/setup/presentation/pages/contraception/contraception_form_state.dart';
 import 'package:app/features/setup/presentation/pages/contraception/contraception_icon.dart';
+import 'package:app/features/setup/presentation/widgets/form_layout.dart';
+import 'package:app/i18n/strings.g.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -22,14 +24,6 @@ class ContraceptionPage extends StatelessWidget {
     );
   }
 
-  String _buttonText(Set<Method> type) {
-    if (type.isEmpty) {
-      return "None!";
-    }
-
-    return "Next";
-  }
-
   Widget _contraceptionTile(Method method, bool selected) {
     return AnimatedContainer(
       duration: const Duration(milliseconds: 200),
@@ -37,7 +31,7 @@ class ContraceptionPage extends StatelessWidget {
       decoration: BoxDecoration(
         border: Border.all(
           color: switch (selected) {
-            true => PeriodtTheme.primary,
+            true => PeriodtTheme.periodPrimary,
             _ => Colors.transparent,
           },
           width: 6,
@@ -57,34 +51,31 @@ class ContraceptionPage extends StatelessWidget {
   }
 
   Widget _form(ContraceptionFormCubit cubit, ContraceptionFormState state) {
-    return Column(
-      children: [
-        Expanded(
-          child:
-              PeriodtTileField<
-                Method,
-                ContraceptionType,
-                ContraceptionFieldError
-              >(
-                items: Method.values.toSet(),
-                field: state.type,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
-                onChanged: cubit.contraceptionChanged,
-                onTouched: cubit.contraceptionTouched,
-                errorText: (error) => switch (error) {
-                  ContraceptionFieldError.invalidCombination =>
-                    'Invalid combination of contraception methods',
-                },
-                builder: (context, value, selected) =>
-                    _contraceptionTile(value, selected),
-              ),
-        ),
-        ElevatedButton(
-          onPressed: cubit.trySubmit,
-          child: Text(_buttonText(state.type.value)),
-        ),
-      ],
+    return FormLayout(
+      title: t.setup.contraception.title,
+      buttonText: t.setup.contraception.action,
+      onSubmit: cubit.trySubmit,
+      child: Expanded(
+        child:
+            PeriodtTileField<
+              Method,
+              ContraceptionType,
+              ContraceptionFieldError
+            >(
+              items: Method.values.toSet(),
+              field: state.type,
+              mainAxisSpacing: 16,
+              crossAxisSpacing: 16,
+              onChanged: cubit.contraceptionChanged,
+              onTouched: cubit.contraceptionTouched,
+              errorText: (error) => switch (error) {
+                ContraceptionFieldError.invalidCombination =>
+                  t.setup.contraception.error.invalidCombination,
+              },
+              builder: (context, value, selected) =>
+                  _contraceptionTile(value, selected),
+            ),
+      ),
     );
   }
 

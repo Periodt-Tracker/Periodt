@@ -11,7 +11,7 @@ class SecurityPageLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: PeriodtTheme.primary,
+      backgroundColor: PeriodtTheme.periodPrimary,
       body: SafeArea(
         child: Column(
           children: [

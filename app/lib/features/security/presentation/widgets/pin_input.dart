@@ -29,7 +29,7 @@ class PinInput extends StatelessWidget {
       height: 72,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: PeriodtTheme.primaryLight,
+        color: PeriodtTheme.periodPrimaryLight,
       ),
       textStyle: TextStyle(
         fontSize: 24,
@@ -52,7 +52,7 @@ class PinInput extends StatelessWidget {
       ),
       disabledPinTheme: defaultPinTheme.copyWith(
         decoration: defaultPinTheme.decoration?.copyWith(
-          color: PeriodtTheme.primaryDark,
+          color: PeriodtTheme.periodPrimaryDark,
         ),
       ),
       autofocus: autofocus,
